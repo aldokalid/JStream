@@ -3,17 +3,17 @@
 JStream es una plataforma web de trasmisión de contenido audiovisual. Es un proyecto en desarrollo en conjunto con el programa del Semillero de desarrolladores MEGA.
 
 ## Imágenes del sistema en funcionamiento.
-![Imagen funcional 1](./assets/images/readme/f1.jpg);
-![Imagen funcional 2](./assets/images/readme/f2.jpg);
-![Imagen funcional 3](./assets/images/readme/f3.jpg);
-![Imagen funcional 4](./assets/images/readme/f4.jpg);
+![Imagen funcional 1](./assets/images/readme/f1.jpg)
+![Imagen funcional 2](./assets/images/readme/f2.jpg)
+![Imagen funcional 3](./assets/images/readme/f3.jpg)
+![Imagen funcional 4](./assets/images/readme/f4.jpg)
 
 ## Imágenes del diseño inicial.
-![Imagen de diseño 1](./assets/images/readme/m1.JPG);
-![Imagen de diseño 2](./assets/images/readme/m2.JPG);
-![Imagen de diseño 3](./assets/images/readme/m3.JPG);
-![Imagen de diseño 4](./assets/images/readme/m4.JPG);
-![Imagen de diseño 1](./assets/images/readme/m5.JPG);
+![Imagen de diseño 1](./assets/images/readme/m1.JPG)
+![Imagen de diseño 2](./assets/images/readme/m2.JPG)
+![Imagen de diseño 3](./assets/images/readme/m3.JPG)
+![Imagen de diseño 4](./assets/images/readme/m4.JPG)
+![Imagen de diseño 1](./assets/images/readme/m5.JPG)
 
 ## ¿Cómo ejecutar el programa.
 Deberás ejecutarlo en un entorno de desarollo. No puedes solo abrir el archivo "index.html" porque CORS bloqueará los scripts y no se ejecutarán (la página se quedará esperando). A continuación, te explico cómo hacerlo funcionar paso a paso en un entorno con Windows 10/11 (estos pasos podrían ser diferentes en otros SOs):
@@ -22,9 +22,12 @@ Deberás ejecutarlo en un entorno de desarollo. No puedes solo abrir el archivo 
 3. **Descarga Visual Studio Code:**_Si ya tienes Visual Studio Code instalado, salta al siguiente paso_. [Haz clic aquí](https://code.visualstudio.com/) para descargar Visual Studio Code. Una vez descargado, lo instalas.
 4. **Descarga la extensión Live Server:** _Si ya tienes esta extensión, salta al siguiente paso._ [Haz clic aquí](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer) para descargar la extensión.
 5. **Abre el repositorio en Visual Studio Code:** Abre Visual Studio Code y, en la parte superior izquierda, haz clic en _Archivo > Abrir carpeta_. Luego, busca la carpeta que descomprimiste en el paso 2 y ábrela (asegúrate que sea la carpeta más directa al repositorio, es decir, la carpeta en donde se encuentra el archivo "index.html"). Esto debería mostrar el repositorio en Visual Studio Code.
-6. **Ejecuta el programa:** En la barra lateral izquierda, haz clic en la primera opción (Explorador) y busca el archivo "index.html". Ya que lo hayas encontrado, haz clic derecho sobre él y, finalmente, haz clic en "Open with Live Server". Si todo ha salido bien, ¡Enhorabuena!, haz conseguido ejecutar el programa.
+6. **Ejecuta el programa:** En la barra lateral izquierda, haz clic en la primera opción (Explorador) y busca el archivo "index.html". Haz clic derecho sobre él y, finalmente, haz clic en "Open with Live Server". Si todo ha salido bien, ¡enhorabuena!, haz conseguido ejecutar el programa.
 
 ## ¿Cómo lo hice?
+Inicié con una maqueta (una aproximación cercana a lo que podría lograr hacer en el desarrollo) en Power Point, luego la estructura de la página (HTML), su estilizado (CSS. No utilicé Bootstrap porque apenas sé utilizarlo y me habría atrasado en el desarrollo intentando averiguarlo) y, finalmente, el funcionamiento de la página (JS). Cada archivo "html" tiene su propio script "JS" y estilo "CSS" (aunque todos dependen de "index.css"). Cada componente dinámico también tiene su propio archivo de estilo y también dependen de "index.css". La clase **DOMRender** en el archivo _scripts/objects/DOMRender.js_ se encarga de realizar funciones especiales relacionadas al renderizado de componentes en el DOM (por ejemplo, renderizar un popup de iniciar sesión).
+
+La fuente de películas que utilicé fue autoconstruida y se encuentra en el archivo _assets/movies.json_. Todos los scripts dependen de él.
 
 ## Problemas conocidos.
 1. La barra de búsqueda ubicada en la barra superior no tiene funcionalidad. Se mantuvo allí para mantener la estética de la barra superior.
