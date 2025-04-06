@@ -292,13 +292,6 @@ span.loading-figure {
   width: 10px;
 }
 
-span.loading-figure.mini {
-  animation: loading-figure 1.7s cubic-bezier(.56, -0.01, .99, .15) 0s infinite;
-  border-width: 6px;
-  height: 4px;
-  width: 4px;
-}
-
 @keyframes loading-figure {
   10% {
     transform: rotate(-45deg);
