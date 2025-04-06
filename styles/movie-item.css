@@ -1,0 +1,57 @@
+div.movie-item {
+  animation: movie-item-show 0.3s ease-out 0s 1 normal forwards;
+  background-color: #323247;
+  border-radius: 10px;
+  display: inline-block;
+  cursor: pointer;
+  height: 300px;
+  margin: 8px;
+  overflow: hidden;
+  transition: 0.25s;
+  width: 160px;
+}
+
+@keyframes movie-item-show {
+  from {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0px);
+  }
+}
+
+div.movie-item:hover {
+  background-color: #3e3e57;
+}
+
+div.movie-item .movie-title {
+  margin-left: 8px;
+  margin-top: 5px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: calc(100% - 8px);
+}
+
+div.movie-item div.movie-img-container {
+  height: 240px;
+  overflow: hidden;
+  position: relative;
+  width: 160px;
+}
+
+
+div.movie-item div.movie-img-container>img {
+  left: 50%;
+  height: 100%;
+  position: absolute;
+  transition: 0.25s;
+  transform: translateX(-50%);
+}
+
+div.movie-item:hover div.movie-img-container>img {
+  transform: translateX(-50%) scale(1.05);
+}
