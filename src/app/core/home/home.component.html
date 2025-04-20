@@ -1,0 +1,12 @@
+<app-navbar [onUserImgClick]="renderLoginPopup" />
+<div class="home" #homeComponent>
+  <router-outlet />
+  <!-- Popups -->
+  <app-login-popup *ngIf="getCurrPopup() === 'login'" [onAction]="renderLoadingWrapper" [onDispose]="disposePopup"
+    [onReject]="onLoginPopupReject" [onResolve]="onLoginPopupResolve" />
+  <app-session-popup *ngIf="getCurrPopup() === 'session'" [onDispose]="disposePopup"
+    [parentComponent]="getHomeComponent()" [session]="getSession()" />
+  <!-- Pantalla de carga -->
+  <app-load-wrap *ngIf="getLoadingWrapperStatus()" [onDispose]="disposeLoadingWrapper"
+    [disposeComponent]="getLoadingWrapperCallbackAssigner()" />
+</div>

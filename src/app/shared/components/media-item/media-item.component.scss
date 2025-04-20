@@ -1,0 +1,62 @@
+div.media-item.wait {
+  animation: component-wait 1s linear 0s infinite normal forwards;
+  background-color: transparent;
+}
+
+div.media-item:not(.wait) {
+  animation: media-item-show 0.3s ease-out 0s 1 normal forwards;
+}
+
+div.media-item {
+  background-color: #323247;
+  border-radius: 10px;
+  display: inline-block;
+  cursor: pointer;
+  height: 300px;
+  margin: 8px;
+  overflow: hidden;
+  transition: 0.25s;
+  width: 160px;
+}
+
+@keyframes media-item-show {
+  from {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0px);
+  }
+}
+
+div.media-item:hover {
+  background-color: #3e3e57;
+}
+
+.media-title {
+  margin-left: 8px;
+  margin-top: 5px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: calc(100% - 8px);
+}
+
+div.media-img-container {
+  height: 240px;
+  overflow: hidden;
+  position: relative;
+  width: 160px;
+}
+
+div.media-img-container>img {
+  height: 100%;
+  position: absolute;
+  transition: 0.25s;
+}
+
+div.media-item:hover div.media-img-container>img {
+  transform: scale(1.05);
+}

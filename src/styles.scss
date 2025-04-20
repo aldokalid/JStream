@@ -1,0 +1,90 @@
+/* Vars */
+$text-color: #aeaec7;
+$text-color-hover: #e5e5f8;
+$background-color: #202030;
+
+* {
+  margin: 0;
+}
+
+body {
+  background-color: $background-color;
+  color: $text-color;
+  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+}
+
+/* Elementos */
+button {
+  color: #707096;
+  background: none;
+  border: 2px solid #414163;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  max-height: 40px;
+  padding: 10px 20px 10px;
+  transition: 0.25s;
+}
+
+button>img {
+  width: 18px;
+}
+
+button:hover {
+  color: #202030;
+  background-color: #414163;
+}
+
+button:focus {
+  border-color: #53537c;
+  outline: none;
+}
+
+button:active {
+  background-color: #2f2f49;
+  line-height: 22px;
+}
+
+input[type="text"],
+input[type="password"] {
+  color: #6b6b94;
+  background: none;
+  border: 2px solid #414163;
+  border-radius: 10px;
+  font-size: 1.1rem;
+  margin: 5px auto;
+  padding: 10px;
+  transition: 0.25s;
+}
+
+input[type="text"]::placeholder,
+input[type="password"]::placeholder {
+  color: #414163;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus {
+  border: 2px solid #414163;
+  background-color: #2a2a3d;
+  outline: none;
+}
+
+// Animaciones.
+@keyframes component-wait {
+  0% {
+    background-color: #32374460;
+  }
+
+  30% {
+    background-color: #6e718b88;
+  }
+
+  60% {
+    background-color: #32374460;
+  }
+
+  100% {
+    background-color: #31364260;
+  }
+}

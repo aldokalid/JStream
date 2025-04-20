@@ -1,0 +1,33 @@
+div#not-found {
+  height: calc(100vh - 16px);
+  position: relative;
+
+  div.container {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    left: 50%;
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+  }
+
+  div.img-container {
+    max-width: 250px;
+  }
+
+  div.img-container>img {
+    width: 100%;
+  }
+
+  div.message-container {
+    letter-spacing: 0.2rem;
+    max-width: 440px;
+    text-align: center;
+  }
+
+  div.message-container>* {
+    margin: 8px auto;
+  }
+}

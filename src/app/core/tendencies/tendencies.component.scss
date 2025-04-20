@@ -1,0 +1,42 @@
+div.tendencies {
+  padding-top: 68px;
+
+  div.tendencies-container {
+    display: flex;
+    justify-content: space-between;
+    margin: 0 auto;
+    max-width: 1000px;
+    padding-top: 10px;
+  }
+
+  div.more-tendencies-container {
+    background-color: #29293b;
+    border-radius: 8px;
+    margin: 0 auto;
+    margin-top: 15px;
+    max-width: 980px;
+    padding: 10px;
+  }
+
+  div.more-tendencies-container div#options-container {
+    min-height: 200px;
+  }
+
+  div.more-tendencies-container div#options-container div {
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+  @media (max-width: 1036px) {
+    div.more-tendencies-container {
+      max-width: none;
+      width: calc(100% - 40px);
+    }
+  }
+
+  @media (max-width: 929px) {
+    div.tendencies-container {
+      flex-direction: column;
+    }
+  }
+}
