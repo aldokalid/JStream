@@ -7,7 +7,7 @@ import { DAOCatalogueService } from 'src/app/shared/services/daocatalogue.servic
 
 @Component({
   selector: 'app-categories',
-  standalone: true, // Angular 18.
+  standalone: true, // (Requerido en Angular 18<).
   imports: [MediaItemComponent, NgFor, NgIf],
   templateUrl: './categories.component.html',
   styleUrl: './categories.component.scss'
@@ -23,6 +23,7 @@ export class CategoriesComponent implements OnInit {
   constructor(private daoCatalogue: DAOCatalogueService, private router: Router) { }
 
   // *** ANGULAR ***
+  /** Carga del catálogo. */
   ngOnInit(): void {
     this.catalogue = this.op === 'all'
       ? this.daoCatalogue.getCatalogue()
@@ -30,6 +31,7 @@ export class CategoriesComponent implements OnInit {
   }
 
   // *** EVENTOS ***
+  /** Oculta o muestra el menú de categorías en dispositivos compatibles. */
   onCategoriesBtnClick() {
     if (this.categoriesContainerStatusClass === ' hide')
       return;
@@ -39,6 +41,7 @@ export class CategoriesComponent implements OnInit {
       : ' show';
   }
 
+  /** Controlador de animaciones del menú de categorías. */
   onCategoriesContainerAnimationEnd() {
     if (this.categoriesContainerStatusClass === ' hide')
       this.categoriesContainerStatusClass = '';
@@ -46,6 +49,7 @@ export class CategoriesComponent implements OnInit {
       this.categoriesContainerStatusClass = ' idle';
   }
 
+  /** Controlador de clics del menú de categorías. */
   onCategoriesContainerClick(e: MouseEvent) {
     const nE = this.categoriesContainer.nativeElement;
 
@@ -65,6 +69,7 @@ export class CategoriesComponent implements OnInit {
     });
   }
 
+  /** Controlador de clics para tarjetas de películas y series. */
   onOptionsContainerClick(e: MouseEvent) {
     if (!this.optionsContainer || this.optionsContainer.nativeElement === e.target)
       return;
@@ -80,14 +85,17 @@ export class CategoriesComponent implements OnInit {
   }
 
   // *** GET / SET ***
+  /** Obtiene el catálogo de este componente. */
   getCatalogue() {
     return this.catalogue;
   }
 
+  /** Obtiene la clase de estado de 'categories-container' para el control de animaciones.*/
   getCategoriesContainerStatusClass() {
     return this.categoriesContainerStatusClass;
   }
 
+  /** Obtiene la categorías seleccionada. */
   getCurrentCategory() {
     switch (this.op) {
       case 'action': return 'Acción';

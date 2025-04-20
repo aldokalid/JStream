@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
-  standalone: true, // Angular 18.
+  standalone: true, // (Requerido en Angular 18<).
   imports: [],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.scss'
@@ -17,6 +17,7 @@ export class NavbarComponent {
   constructor(private router: Router) { }
 
   // *** EVENTOS ***
+  /** Controlador de clics para la opción Categorías. */
   onCategoriesOptionClick() {
     // Omite la navegación si ya se está en la ubicación 'categorias'.
     if (/^\/categorias/.test(this.router.url))
@@ -27,10 +28,12 @@ export class NavbarComponent {
     });
   }
 
+  /** Controlador de clics para el logo. */
   onLogoClick() {
     this.router.navigate(['/']);
   }
 
+  /** Controlador de clics para el botón de búsqueda. */
   onSearchBtnClick() {
     // Omite la navegación si ya se está en la ubicación 'buscar'.
     if (/^\/buscar/.test(this.router.url))
@@ -39,6 +42,7 @@ export class NavbarComponent {
     this.router.navigate(['/', 'buscar']);
   }
 
+  /** Controlador de clis para la imagen del usuario. */
   onUserPictureClick() {
     this.onUserImgClick();
   }

@@ -4,41 +4,48 @@ import { Router } from '@angular/router';
 import { CarouselComponent } from 'src/app/shared/components/carousel/carousel.component';
 import { MediaItemComponent } from "../../shared/components/media-item/media-item.component";
 import { DAOCatalogueService } from 'src/app/shared/services/daocatalogue.service';
+import Media from 'src/app/models/media.model';
 
 @Component({
   selector: 'app-tendencies',
-  standalone: true, // Angular 18.
+  standalone: true, // (Requerido en Angular 18<).
   imports: [CarouselComponent, CommonModule, MediaItemComponent],
   templateUrl: './tendencies.component.html',
   styleUrl: './tendencies.component.scss'
 })
 export class TendenciesComponent {
-  @ViewChild('tendenciesHolder') private _tendenciesHolder?: ElementRef<HTMLDivElement>;
-  constructor(private _router: Router, private _daoCatalogue: DAOCatalogueService) { }
+  @ViewChild('tendenciesHolder') private tendenciesHolder?: ElementRef<HTMLDivElement>;
+  // Debe estar definido aquí. No se puede obtener desde el DAO porque el carrusel entra en bucle.
+  private tendencyCatalog: Media[];
+
+  constructor(private router: Router, private daoCatalogue: DAOCatalogueService) {
+    this.tendencyCatalog = daoCatalogue.getTendencies();
+  }
 
   // *** EVENTOS ***
+  /** Controlador de clics para el contenedor de tendencias. */
   onTendenciesClick(e: MouseEvent) {
-    if (!this._tendenciesHolder || this._tendenciesHolder.nativeElement === e.target)
+    if (!this.tendenciesHolder || this.tendenciesHolder.nativeElement === e.target)
       return;
 
-    const mediaItem = Array.from(this._tendenciesHolder.nativeElement.children).find(c => {
+    const mediaItem = Array.from(this.tendenciesHolder.nativeElement.children).find(c => {
       return e.target === c || c.contains(e.target as Node)
     });
 
     if (!mediaItem)
       return;
 
-    this._router.navigate(['/', 'medio'], { queryParams: { id: mediaItem.children[0].id.split('-')[1] } });
+    this.router.navigate(['/', 'medio'], { queryParams: { id: mediaItem.children[0].id.split('-')[1] } });
   }
 
   // *** GET / SET ***
-  /** Obtiene todo el contenido. */
+  /** Obtiene todo el catálogo. */
   getCatalogue() {
-    return this._daoCatalogue.getCatalogue();
+    return this.daoCatalogue.getCatalogue();
   }
 
-  /** Obtiene el contenido que es tendencia. */
+  /** Obtiene el contenido del catálogo que es tendencia. */
   getTendencies() {
-    return this._daoCatalogue.getTendencies() ?? [];
+    return this.tendencyCatalog;
   }
 }

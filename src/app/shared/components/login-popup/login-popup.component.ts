@@ -2,7 +2,7 @@ import { Component, ElementRef, Input, NgZone, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-login-popup',
-  standalone: true, // Angular 18.
+  standalone: true, // (Requerido en Angular 18<).
   imports: [],
   templateUrl: './login-popup.component.html',
   styleUrl: './login-popup.component.scss'
@@ -25,31 +25,32 @@ export class LoginPopupComponent {
   @ViewChild('loginWrapper') loginWrapper!: ElementRef;
 
   /** En estado 'true', el componente no es interactuable. */
-  private _compoWait: boolean = false;
-  private _statusClass: ' show' | ' hide' | '' = ' show';
-  private _password?: string;
-  private _username?: string;
+  private compoWait: boolean = false;
+  private password?: string;
+  private statusClass: ' show' | ' hide' | '' = ' show';
+  private username?: string;
 
   constructor(private ngZone: NgZone) { }
 
   // *** EVENTOS ***
   /** Activado cuando se hace clic en el botón Cerrar. */
   onCloseBtnClick() {
-    this._statusClass = ' hide';
+    this.statusClass = ' hide';
   }
 
+  /** Controlador de fin de animación para el componente. */
   onComponentAnimationEnd(e: AnimationEvent) {
     // Verifica que el elemento que lanzó el evento sea la cortina del componente.
     if (this.loginWrapper.nativeElement !== e.target)
       return;
 
-    if (this._statusClass === ' show')
-      this._statusClass = '';
+    if (this.statusClass === ' show')
+      this.statusClass = '';
     else
       this.onDispose();
   }
 
-  /** Activado cuando una entrada cambia. */
+  /** Controlador de cambios para las barras de texto. */
   onInputChange(e: Event, type: 'username' | 'password') {
     // Cambio el tipo de dato porque 'value' no se puede acceder desde el evento.
     const inputEvent = (e.target as HTMLInputElement | null);
@@ -60,12 +61,12 @@ export class LoginPopupComponent {
       this.setPassword(inputEvent?.value);
   }
 
-  /** Activado cuando se hace clic en el botón Iniciar sesión. */
+  /** Controlador de clics para el botón Iniciar sesión. */
   onLoginBtnClick() {
-    if (!this._username || !this._password) // Rechazar el inicio de sesión.
+    if (!this.username || !this.password) // Rechazar el inicio de sesión.
       return;
 
-    this._compoWait = true;
+    this.compoWait = true;
 
     // @deprecated La función debe ser llamada asíncronamente (dentro de ngZone).
     this.onAction();
@@ -73,37 +74,32 @@ export class LoginPopupComponent {
     // Validación de credenciales (@deprecated solo simulado).
     this.ngZone.runOutsideAngular(() => {
       setTimeout(() => {
-        this.onResolve(this._username as string);
-        this._statusClass = ' hide';
+        this.onResolve(this.username as string);
+        this.statusClass = ' hide';
         this.ngZone.run(() => { });
       }, 3000);
     });
   }
 
   // *** GENÉRICOS ***
+  /** Verifica si el componente está en estado de espera. */
   isWaiting() {
-    return this._compoWait;
+    return this.compoWait;
   }
 
   // *** GET / SET ***
   /** Obtiene el estado actual del componente. */
   getStatusClass() {
-    return this._statusClass
+    return this.statusClass
   }
 
-  getUsername() {
-    return this._username;
-  }
-
+  /** Asigna un nombre de usuario. */
   setUsername(username?: string) {
-    this._username = username;
+    this.username = username;
   }
 
-  getPassword() {
-    return this._password;
-  }
-
+  /** Asigna una contraseña. */
   setPassword(password?: string) {
-    this._password = password;
+    this.password = password;
   }
 }

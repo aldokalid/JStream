@@ -11,7 +11,7 @@
     </div>
   </div>
   <!-- Elemento del carrusel siguiente. -->
-  <div (animationend)="nextMediaAnimationEndHandler()" class="carousel-item" *ngIf="getNextMedia()">
+  <div (animationend)="onNextMediaAnimationEnd()" class="carousel-item" *ngIf="getNextMedia()">
     <div class="carousel-img-container">
       <img [src]="'assets/images/' + getNextMedia()?.getBackground()" alt="carousel-img">
       <span class="carousel-curtain"></span>

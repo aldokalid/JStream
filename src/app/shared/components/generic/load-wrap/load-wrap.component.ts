@@ -3,7 +3,7 @@ import { CallbackAssignerObject } from 'src/app/models/callback-assigner.model';
 
 @Component({
   selector: 'app-load-wrap',
-  standalone: true, // Angular 18.
+  standalone: true, // (Requerido en Angular 18<).
   imports: [],
   templateUrl: './load-wrap.component.html',
   styleUrl: './load-wrap.component.scss'
@@ -21,7 +21,14 @@ export class LoadWrapComponent implements OnInit {
 
   private _statusClass: ' show' | ' hide' | '' = ' show';
 
+  // *** ANGULAR ***
+  ngOnInit(): void {
+    // Asigna la función de ejecución al objeto recibido.
+    this.disposeComponent.executer = () => this._statusClass = ' hide';
+  }
+
   // *** EVENTOS ***
+  /** Controlador de fin de animación para el componente. */
   onComponentAnimationEnd(e: AnimationEvent) {
     // Verifica que el elemento que lanzó el evento sea la cortina del componente.
     if (this.loadingWrapper.nativeElement !== e.target)
@@ -34,13 +41,8 @@ export class LoadWrapComponent implements OnInit {
   }
 
   // *** GET / SET ***
+  /** Obtiene la clase de estado del componente para el control de animaciones. */
   getStatusClass() {
     return this._statusClass
-  }
-
-  // *** ANGULAR ***
-  ngOnInit(): void {
-    // Asigna la función de ejecución al objeto recibido.
-    this.disposeComponent.executer = () => this._statusClass = ' hide';
   }
 }

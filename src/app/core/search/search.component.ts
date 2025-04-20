@@ -7,7 +7,7 @@ import { DAOCatalogueService } from 'src/app/shared/services/daocatalogue.servic
 
 @Component({
   selector: 'app-search',
-  standalone: true, // Angular 18.
+  standalone: true, // (Requerido en Angular 18<).
   imports: [MediaItemComponent, NgFor, NgIf],
   templateUrl: './search.component.html',
   styleUrl: './search.component.scss'
@@ -19,8 +19,10 @@ export class SearchComponent {
 
   constructor(private daoCatalogue: DAOCatalogueService, private router: Router) { }
 
-  // *** EVENTS ***
+  // *** EVENTOS ***
+  /** Controlador de clics para el botón de búsqueda. */
   onSearchBtnClick() {
+    // Obtiene la entrada e la barra de texto.
     const { value } = this.searchInput.nativeElement;
 
     if (!value)
@@ -29,6 +31,7 @@ export class SearchComponent {
       this.mediaItems = this.daoCatalogue.searchCatalogue(value);
   }
 
+  /** Controlador de clics del contenedor de resultados. */
   onSearchItemsContainerClick(e: MouseEvent) {
     if (!this.itemsContainer || this.itemsContainer.nativeElement === e.target)
       return;
@@ -44,6 +47,7 @@ export class SearchComponent {
   }
 
   // *** GET / SET
+  /** Obtiene los resultados de la búsqueda actual. */
   getMediaItems() {
     return this.mediaItems;
   }

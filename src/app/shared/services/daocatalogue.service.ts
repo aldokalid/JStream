@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import * as data from '../../data/movies.json';
 import Media from 'src/app/models/media.model';
 
-/** DAO para el catálogo de películas. */
+/** Servicio para el catálogo de películas. */
 @Injectable({
   providedIn: 'root'
 })
@@ -37,6 +37,7 @@ export class DAOCatalogueService {
     return this._catalogue;
   }
 
+  /** Obtiene un género del catálogo. */
   getCatalogueByGenre(genre: string) {
     return this._catalogue.filter(m => m.getGenre() === genre)
   }

@@ -10,7 +10,7 @@ import { SessionService } from 'src/app/shared/services/session.service';
 
 @Component({
   selector: 'app-home',
-  standalone: true, // Angular 18.
+  standalone: true, // (Requerido en Angular 18<).
   imports: [
     LoadWrapComponent,
     LoginPopupComponent,
@@ -23,63 +23,75 @@ import { SessionService } from 'src/app/shared/services/session.service';
 })
 
 export class HomeComponent {
-  @ViewChild('homeComponent') private _homeComponent!: ElementRef<HTMLDivElement>;
-  private _currPopup?: 'login' | 'session';
-  private _loadingWrapper: boolean = false;
-  private _loadingWrapperCallbackAssigner: CallbackAssignerObject = {};
+  @ViewChild('homeComponent') private homeComponent!: ElementRef<HTMLDivElement>;
+  private currPopup?: 'login' | 'session';
+  private loadingWrapper: boolean = false;
+  private loadWrapCallbackAssigner: CallbackAssignerObject = {};
 
   constructor(private session: SessionService) { }
 
+  /** Obtiene el popup actualmente renderizado. */
   getCurrPopup() {
-    return this._currPopup;
+    return this.currPopup;
   }
 
-  getLoadingWrapperStatus() {
-    return this._loadingWrapper;
+  /** Verifica si la pantalla de carga se está renderizando. */
+  isLoadWrapRendering() {
+    return this.loadingWrapper;
   }
 
-  getLoadingWrapperCallbackAssigner() {
-    return this._loadingWrapperCallbackAssigner;
+  /** Obtiene el CallBackAssignerObject de la pantalla de carga. */
+  getLoadWrapCallbackAssigner() {
+    return this.loadWrapCallbackAssigner;
   }
 
   // *** EVENT HANDLERS ***
   // Se definen como funciones flecha para que el contexto this haga referencia a esta clase.
+  /** Elimina la pantalla de carga del DOM. */
   disposeLoadingWrapper = () => {
-    delete this._loadingWrapperCallbackAssigner.executer;
-    this._loadingWrapper = false;
+    delete this.loadWrapCallbackAssigner.executer;
+    this.loadingWrapper = false;
   }
 
+  /** Elimina el popup actual del DOM. */
   disposePopup = () => {
-    this._currPopup = undefined;
+    this.currPopup = undefined;
   }
 
+  /** Función 'onReject' para el popup login. */
   onLoginPopupReject = (err: Error | string | 'password' | 'username') => {
-    // @deprecated mostrar mensaje de error
+    // @deprecated mostrar mensaje de error con alert-banner.component
+    alert(`No se pudo iniciar sesión (${err})`);
   }
 
+  /** Función 'onResolve' para el popup login. */
   onLoginPopupResolve = (res: string) => {
     // @deprecated Solo para fines simulados.
     this.session.login(res);
     // Oculta la cortina de carga.
-    this._loadingWrapperCallbackAssigner.executer
-      && this._loadingWrapperCallbackAssigner.executer();
-    // @deprecated mostrar mensaje de bienvenida.
+    this.loadWrapCallbackAssigner.executer
+      && this.loadWrapCallbackAssigner.executer();
+    // @deprecated mostrar mensaje de bienvenida con alert-banner.component.
     alert(`Bienvenido, ${this.session.getSession()}.`);
   }
 
+  /** Renderiza la pantalla de carga. */
   renderLoadingWrapper = () => {
-    this._loadingWrapper = true;
+    this.loadingWrapper = true;
   }
 
+  /** Renderiza el popup login. */
   renderLoginPopup = () => {
-    this._currPopup = this.session.getSession() ? 'session' : 'login';
+    this.currPopup = this.session.getSession() ? 'session' : 'login';
   }
 
   // *** GET / SET ***
+  /** Obtiene la referencia de este componente. */
   getHomeComponent() {
-    return this._homeComponent;
+    return this.homeComponent;
   }
 
+  /** Obtiene la sesión actual. */
   getSession() {
     return this.session.getSession();
   }

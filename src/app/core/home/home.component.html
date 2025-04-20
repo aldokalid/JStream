@@ -5,8 +5,8 @@
   <app-login-popup *ngIf="getCurrPopup() === 'login'" [onAction]="renderLoadingWrapper" [onDispose]="disposePopup"
     [onReject]="onLoginPopupReject" [onResolve]="onLoginPopupResolve" />
   <app-session-popup *ngIf="getCurrPopup() === 'session'" [onDispose]="disposePopup"
-    [parentComponent]="getHomeComponent()" [session]="getSession()" />
+    [parentComponent]="getHomeComponent()" [session]="getSession() ?? 'Usuario'" />
   <!-- Pantalla de carga -->
-  <app-load-wrap *ngIf="getLoadingWrapperStatus()" [onDispose]="disposeLoadingWrapper"
-    [disposeComponent]="getLoadingWrapperCallbackAssigner()" />
+  <app-load-wrap *ngIf="isLoadWrapRendering()" [onDispose]="disposeLoadingWrapper"
+    [disposeComponent]="getLoadWrapCallbackAssigner()" />
 </div>

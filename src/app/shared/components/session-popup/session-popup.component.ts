@@ -2,7 +2,7 @@ import { Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@ang
 
 @Component({
   selector: 'app-session-popup',
-  standalone: true, // Angular 18.
+  standalone: true, // (Requerido en Angular 18<).
   imports: [],
   templateUrl: './session-popup.component.html',
   styleUrl: './session-popup.component.scss'
@@ -12,54 +12,61 @@ export class SessionPopupComponent implements OnDestroy, OnInit {
   @Input() parentComponent!: ElementRef<HTMLDivElement>;
   /** Función que se activará cuando el componente se haya ocultado del DOM. */
   @Input() onDispose!: () => void;
-  /** Nombre de usuario mostrado en el componente. */
-  @Input() session?: string;
   /** Referencia a este componente. */
   @ViewChild('sessionPopup') sessionPopup!: ElementRef<HTMLDivElement>;
-
+  
+  private _session?: string;
   private currSession!: string;
-  private _statusClass: ' show' | ' hide' | '' = ' show';
-  
-    // *** ANGULAR ***
-    ngOnDestroy(): void {
-      // Eliminando el evento de clic en el componente home.
-      this.parentComponent.nativeElement.removeEventListener('click', this.onHomeComponentClick);
-    }
-  
-    ngOnInit(): void {
-      this.currSession = this.session || 'Usuario';
-      // Asignando un evento de clic en el componente home.
-      this.parentComponent.nativeElement.addEventListener('click', this.onHomeComponentClick)
-    }
+  private statusClass: ' show' | ' hide' | '' = ' show';
+
+  // *** ANGULAR ***
+  ngOnDestroy(): void {
+    // Elimina el evento de clic en el componente home.
+    this.parentComponent.nativeElement.removeEventListener('click', this.onHomeComponentClick);
+  }
+
+  ngOnInit(): void {
+    this.currSession = this._session || 'Usuario';
+    // Asigna un evento de clic en el componente home.
+    this.parentComponent.nativeElement.addEventListener('click', this.onHomeComponentClick)
+  }
 
   // *** EVENTOS ***
   /** Utilizado para detectar clics fuera de este componente (se define aquí porque se requiere
    * para eliminar el evento una vez que ya no se requiera)
-   * @deprecated La estructura actual no permite detectar clics en Navbar. El elemento padre
-   * que se le debe pasar es AppComponent (para detectar la página entera al hacer clic) */
+   * @deprecated La estructura actual no permite detectar clics en Navbar. */
   private onHomeComponentClick = (e: MouseEvent) => {
     if (!this.sessionPopup.nativeElement.contains(e.target as Element)) {
-      this._statusClass = ' hide';
+      this.statusClass = ' hide';
     }
   }
 
+  /** Controlador de fin de animación para el componente. */
   onComponentAnimationEnd() {
-    if (this._statusClass === ' show')
-      this._statusClass = '';
+    if (this.statusClass === ' show')
+      this.statusClass = '';
     else
       this.onDispose();
   }
 
-  /** @deprecated Simulado. En el futuro, este metodo debe cerrar la sesión apropiadamente. */
+  /** Controlador de clics para el botón Salir.
+   * @deprecated Simulado. En el futuro, este metodo debe cerrar la sesión apropiadamente. */
   onLogoutBtnClick() {
     window.location.reload();
   }
 
   // *** GET / SET ***
-  getStatusClass() {
-    return this._statusClass;
+  @Input()
+  set session(session: string) {
+    this._session = session;
   }
 
+  /** Obtiene la clase de estado del componente para el control de animaciones. */
+  getStatusClass() {
+    return this.statusClass;
+  }
+
+  /** Obtiene la sesión actual. */
   getCurrSession() {
     return this.currSession;
   }
