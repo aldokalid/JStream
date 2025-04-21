@@ -12,7 +12,7 @@ Aldo Kalid Hernández Camarena
 ![Imagen funcional 1](./readme_assets/f1.png)
 
 ## ¿Cómo ejecutar el programa?
-Aquí te explico cómo ejecutar el programa en un entorno de desarrollo con **ng serve** en un entorno con Visual Studio Code y Windows 10/11 (estos pasos podrían ser diferentes en otros SOs).
+Aquí te explico cómo ejecutar el programa con el script **ng serve** en un entorno con Visual Studio Code y Windows 10/11 (estos pasos podrían ser diferentes en otros SOs).
 1. **Descarga el repositorio.**
 Ubícate al tope de esta página y haz clic en el obvio botón verde "<> Code" y, luego, haz clic en "Download ZIP". Esto iniciará (o solicitará, depende de tu navegador) la descarga.
 2. **Descomprime el repositorio.**
