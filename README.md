@@ -17,11 +17,11 @@ Aldo Kalid Hernández Camarena
 ![Imagen funcional 5](./readme_assets/f5.png)
 
 ## Imágenes de la idea principal (MOCKUP).
-![Imagen de mockup 1](./readme_assets/m1.png)
-![Imagen de mockup 2](./readme_assets/m2.png)
-![Imagen de mockup 3](./readme_assets/m3.png)
-![Imagen de mockup 4](./readme_assets/m4.png)
-![Imagen de mockup 5](./readme_assets/m5.png)
+![Imagen de mockup 1](./readme_assets/m1.jpg)
+![Imagen de mockup 2](./readme_assets/m2.jpg)
+![Imagen de mockup 3](./readme_assets/m3.jpg)
+![Imagen de mockup 4](./readme_assets/m4.jpg)
+![Imagen de mockup 5](./readme_assets/m5.jpg)
 
 ## ¿Cómo ejecutar el programa?
 Aquí te explico cómo ejecutar el programa con el script **ng serve** en un entorno con Visual Studio Code y Windows 10/11 (estos pasos podrían ser diferentes en otros SOs).
