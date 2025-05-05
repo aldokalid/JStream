@@ -1,7 +1,9 @@
 <div id="search">
   <div class="search-bar-container">
     <input type="text" placeholder="Busca películas y series..." #searchInput>
-    <button (click)="onSearchBtnClick()" type="button"><img src="../../../assets/icons/search.webp" alt=""></button>
+    <button (click)="onSearchBtnClick()" type="button" id="new-search-btn">
+      <img src="../../../assets/icons/search.webp" alt="">
+    </button>
   </div>
   <div (click)="onSearchItemsContainerClick($event)" class="search-items-container" #itemsContainer>
     <div class="empty-search" *ngIf="!getMediaItems()">

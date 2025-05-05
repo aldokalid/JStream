@@ -1,6 +1,7 @@
 import { NgIf } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { NotFoundComponent } from '@core/not-found/not-found.component';
+import { Subscription } from 'rxjs';
 import Media from 'src/app/models/media.model';
 import { DAOCatalogueService } from 'src/app/shared/services/daocatalogue.service';
 
@@ -12,16 +13,27 @@ import { DAOCatalogueService } from 'src/app/shared/services/daocatalogue.servic
   styleUrl: './media.component.scss'
 })
 export class MediaComponent implements OnInit {
-  @Input() private id?: string;
+  /** El identificador para consultar el contenido multimedia deseado. */
+  @Input({ required: true }) private id?: string;
   private media?: Media;
+  private media$!: Subscription;
 
   constructor(private daoCatalogue: DAOCatalogueService) { }
 
   // *** ANGULAR ***
   ngOnInit(): void {
     // Obtiene la película respecto al id obtenido en queryParams.
-    this.media = this.daoCatalogue.findMedia(Number(this.id))
-      ?? new Media(0, '', '', '', '', false, 0, '', 'movie');
+    this.media$ = this.daoCatalogue.catalogue$.subscribe({
+      next: data => {
+        this.media = data.find(d => d.getId() === Number(this.id))
+          ?? new Media(0, '', '', '', '', false, 0, '', 'movie');
+      },
+      error: err => {
+        console.error(err);
+      }
+    });
+
+    this.media$.unsubscribe();
   }
 
   // *** GENÉRICOS ***
@@ -31,20 +43,8 @@ export class MediaComponent implements OnInit {
   }
 
   // *** GET / SET
-  getMediaBackground() {
-    return `../../../assets/images/${this.media?.getBackground()}`;
-  }
-
-  getMediaCover() {
-    return `../../../assets/images/${this.media?.getCover()}`;
-  }
-
-  getMediaDescription() {
-    return this.media?.getDescription();
-  }
-
-  getMediaTitle() {
-    return this.media?.getTitle();
+  getMedia() {
+    return this.media;
   }
 
   /** Obtiene la clase de estado del componente para el control de animaciones. */

@@ -1,5 +1,5 @@
 import { NgIf } from '@angular/common';
-import { Component, Input, NgZone, OnDestroy } from '@angular/core';
+import { Component, Inject, Input, NgZone, OnDestroy, PLATFORM_ID } from '@angular/core';
 import { Router } from '@angular/router';
 import Media from 'src/app/models/media.model';
 
@@ -19,7 +19,7 @@ export class CarouselComponent implements OnDestroy {
 
   // NgZone es necesario para evitar que la página se quede colgada al iniciar un intervalo.
   // (usar Observable's implica hacer más código que usar solo NgZone. :P).
-  constructor(private _ngZone: NgZone, private router: Router) { }
+  constructor(@Inject(PLATFORM_ID) platformId: Object, private _ngZone: NgZone, private router: Router) { }
 
   // *** ANGULAR ***
   /** Elimina el intervalo. */
@@ -48,11 +48,11 @@ export class CarouselComponent implements OnDestroy {
   // *** GENÉRICOS ***
   /** Inicializa el componente carrusel. */
   private runCarousel() {
-    if (!this.getMedias().length)
-      return;
-
     if (this.currInterval)
       clearInterval(this.currInterval);
+
+    if (!this.getMedias().length)
+      return;
 
     // Obtiene el primer elemento del catálogo.
     this.currMedia = this.getMedias()[0];
@@ -84,7 +84,7 @@ export class CarouselComponent implements OnDestroy {
   }
 
   /** Arreglo de películas y series para renderizar en el carrusel. */
-  @Input()
+  @Input({ required: true })
   set medias(medias: Media[]) {
     this._medias = medias;
 

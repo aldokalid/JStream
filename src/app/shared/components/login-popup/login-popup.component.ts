@@ -11,16 +11,16 @@ export class LoginPopupComponent {
   /** Una función que se activará cuando se haga clic en 'Iniciar sesión'.
    * @deprecated En el futuro, la función debe recibir el nombre de usuario y contraseña ingresados,
    * y regresar una promesa del backend. */
-  @Input() onAction!: () => void
+  @Input({ required: true }) onAction!: () => void
   /** Una función que se activará cuando el componente se haya ocultado del DOM. */
-  @Input() onDispose!: () => void;
+  @Input({ required: true }) onDispose!: () => void;
   /** Una función que se activará cuando el login ha fallado (error de comunicación o campos vacíos). */
-  @Input() onReject!: (err: Error | string | 'password' | 'username') => void;
+  @Input({ required: true }) onReject!: (err: Error | string | 'password' | 'username') => void;
   /** Una función que se activará cuando el login se complete satisfactoriamente. Después de
    * activar esta función, el componente se esconderá y, finalmente, se activará 'onDispose'.
    * @deprecated La función solo devuelve el nombre de usuario ingresado. En el futuro, debe
    * devolver la respuesta del backend. */
-  @Input() onResolve!: (res: string) => void;
+  @Input({ required: true }) onResolve!: (res: string) => void;
   /** Referencia a la cortina del componente */
   @ViewChild('loginWrapper') loginWrapper!: ElementRef;
 
@@ -56,9 +56,9 @@ export class LoginPopupComponent {
     const inputEvent = (e.target as HTMLInputElement | null);
 
     if (type === 'username')
-      this.setUsername(inputEvent?.value);
+      this.username = inputEvent?.value;
     else
-      this.setPassword(inputEvent?.value);
+      this.password = inputEvent?.value;
   }
 
   /** Controlador de clics para el botón Iniciar sesión. */
@@ -91,15 +91,5 @@ export class LoginPopupComponent {
   /** Obtiene el estado actual del componente. */
   getStatusClass() {
     return this.statusClass
-  }
-
-  /** Asigna un nombre de usuario. */
-  setUsername(username?: string) {
-    this.username = username;
-  }
-
-  /** Asigna una contraseña. */
-  setPassword(password?: string) {
-    this.password = password;
   }
 }

@@ -20,4 +20,13 @@ describe('TendenciesComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should click over a tendency and call onTendenciesClick', () => {
+    spyOn(component, 'onTendenciesClick').and.callThrough();
+
+    // Click over a tendency.
+    (component.tendenciesHolder.nativeElement.firstChild as HTMLElement).click();
+
+    expect(component.onTendenciesClick).toHaveBeenCalled();
+  });
 });

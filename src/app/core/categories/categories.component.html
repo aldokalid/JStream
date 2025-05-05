@@ -3,10 +3,11 @@
     [class]="'categories-container' + getCategoriesContainerStatusClass()">
     <div class="top-bar">
       <h1>CATEGORÍAS</h1>
-      <button (click)="onCategoriesBtnClick()" type="button">Categorías</button>
+      <button (click)="onCategoriesBtnClick()" type="button" id="categories-btn">Categorías</button>
       <hr>
     </div>
-    <div (click)="onCategoriesContainerClick($event)" class="categories-buttons-container" #categoriesContainer>
+    <div (click)="onCategoriesContainerClick($event)" class="categories-buttons-container" id="categories-container"
+      #categoriesContainer>
       <button type="button" id="all-btn">Todas</button>
       <button type="button" id="action-btn">Acción</button>
       <button type="button" id="sci_fi-btn">Ciencia ficción</button>
@@ -17,12 +18,12 @@
   </div>
   <div class="options-container">
     <h3 id="position-title">{{getCurrentCategory()}}</h3>
-    <div id="options" *ngIf="!getCatalogue()">
+    <div id="options" *ngIf="getCatalogue().length === 0">
       <app-media-item [cover]="''" [id]="null" [title]="''" />
       <app-media-item [cover]="''" [id]="null" [title]="''" />
       <app-media-item [cover]="''" [id]="null" [title]="''" />
     </div>
-    <div (click)="onOptionsContainerClick($event)" id="options" *ngIf="getCatalogue()" #optionsContainer>
+    <div (click)="onOptionsContainerClick($event)" id="options" *ngIf="getCatalogue().length > 0" #optionsContainer>
       <app-media-item *ngFor="let media of getCatalogue()" [cover]="media.getCover()" [id]="media.getId()"
         [title]="media.getTitle()" />
     </div>

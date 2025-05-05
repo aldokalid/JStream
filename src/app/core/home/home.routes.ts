@@ -5,7 +5,7 @@ import { NotFoundComponent } from '@core/not-found/not-found.component';
 import { SearchComponent } from '@core/search/search.component';
 import { TendenciesComponent } from '@core/tendencies/tendencies.component';
 
-export const HomeRoutes: Routes = [
+export const homeRoutes: Routes = [
   {
     path: '',
     component: TendenciesComponent,
@@ -16,7 +16,7 @@ export const HomeRoutes: Routes = [
   },
   {
     path: 'medio',
-    component: MediaComponent
+    component: MediaComponent,
   },
   {
     path: 'buscar',

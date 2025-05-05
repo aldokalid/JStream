@@ -11,10 +11,14 @@ class Media extends Generic {
     private release: number,
     private title: string,
     private type: 'serie' | 'movie',
-  ) { super(id) }
+  ) {
+    super(id);
+  }
 
   getBackground() {
-    return this.background;
+    return this.background
+      ? `../../assets/images/${this.background}`
+      : '';
   }
 
   setBackground(background: string) {
@@ -22,7 +26,9 @@ class Media extends Generic {
   }
 
   getCover() {
-    return this.cover;
+    return this.cover
+      ? `../../assets/images/${this.cover}`
+      : '';
   }
 
   setCover(cover: string) {

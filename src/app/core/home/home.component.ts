@@ -1,11 +1,11 @@
 import { NgIf } from '@angular/common';
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { CallbackAssignerObject } from 'src/app/models/callback-assigner.model';
 import { LoadWrapComponent } from 'src/app/shared/components/generic/load-wrap/load-wrap.component';
 import { LoginPopupComponent } from 'src/app/shared/components/login-popup/login-popup.component';
 import { NavbarComponent } from 'src/app/shared/components/navbar/navbar.component';
 import { SessionPopupComponent } from 'src/app/shared/components/session-popup/session-popup.component';
+import { LoadWrapService } from 'src/app/shared/services/load-wrap.service';
 import { SessionService } from 'src/app/shared/services/session.service';
 
 @Component({
@@ -26,9 +26,8 @@ export class HomeComponent {
   @ViewChild('homeComponent') private homeComponent!: ElementRef<HTMLDivElement>;
   private currPopup?: 'login' | 'session';
   private loadingWrapper: boolean = false;
-  private loadWrapCallbackAssigner: CallbackAssignerObject = {};
 
-  constructor(private session: SessionService) { }
+  constructor(private loadWrapService: LoadWrapService, private session: SessionService) { }
 
   /** Obtiene el popup actualmente renderizado. */
   getCurrPopup() {
@@ -40,16 +39,10 @@ export class HomeComponent {
     return this.loadingWrapper;
   }
 
-  /** Obtiene el CallBackAssignerObject de la pantalla de carga. */
-  getLoadWrapCallbackAssigner() {
-    return this.loadWrapCallbackAssigner;
-  }
-
   // *** EVENT HANDLERS ***
   // Se definen como funciones flecha para que el contexto this haga referencia a esta clase.
   /** Elimina la pantalla de carga del DOM. */
   disposeLoadingWrapper = () => {
-    delete this.loadWrapCallbackAssigner.executer;
     this.loadingWrapper = false;
   }
 
@@ -69,8 +62,7 @@ export class HomeComponent {
     // @deprecated Solo para fines simulados.
     this.session.login(res);
     // Oculta la cortina de carga.
-    this.loadWrapCallbackAssigner.executer
-      && this.loadWrapCallbackAssigner.executer();
+    this.loadWrapService.loadWrapOnHideExecute();
     // @deprecated mostrar mensaje de bienvenida con alert-banner.component.
     alert(`Bienvenido, ${this.session.getSession()}.`);
   }

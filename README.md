@@ -2,14 +2,26 @@
 
 JStream es una plataforma web de trasmisión de contenido audiovisual. Es un proyecto en desarrollo en conjunto con el programa del Semillero de desarrolladores MEGA.
 
-## Objectivo.
-Migración o implementación de Angular en su versión 18 usando Typescript y concluyendo las funcionalidades pendientes.
+## Objetivos.
+- Implementación de funcionalidades asíncronas en el proyecto de Angular del Hub de entretenimiento.
+- 50% de testing code coverage en el proyecto.
 
 ## Nombre del desarrollador
 Aldo Kalid Hernández Camarena
 
-## Imagen del sistema en funcionamiento.
+## Imágenes del sistema en funcionamiento.
 ![Imagen funcional 1](./readme_assets/f1.png)
+![Imagen funcional 2](./readme_assets/f2.png)
+![Imagen funcional 3](./readme_assets/f3.png)
+![Imagen funcional 4](./readme_assets/f4.png)
+![Imagen funcional 5](./readme_assets/f5.png)
+
+## Imágenes de la idea principal (MOCKUP).
+![Imagen de mockup 1](./readme_assets/m1.png)
+![Imagen de mockup 2](./readme_assets/m2.png)
+![Imagen de mockup 3](./readme_assets/m3.png)
+![Imagen de mockup 4](./readme_assets/m4.png)
+![Imagen de mockup 5](./readme_assets/m5.png)
 
 ## ¿Cómo ejecutar el programa?
 Aquí te explico cómo ejecutar el programa con el script **ng serve** en un entorno con Visual Studio Code y Windows 10/11 (estos pasos podrían ser diferentes en otros SOs).
@@ -27,9 +39,11 @@ Abre Visual Studio Code y, en la parte superior izquierda, haz clic en _Archivo 
 _Si ya tienes Angular JS instalado, salta al siguiente paso_. [Haz clic aquí](https://angular.dev/installation) para instalar Angular (Node JS ya debe estar instalado). Asegúrate de instalar la versión 18 o superior.
 7. **Instala las dependencias.**
 En Visual Studio Code, haz la combinación de teclas **Ctrl + Ñ** para abrir una terminal (la tecla _Ñ_ se ubica a la derecha de la tecla _L_ en un teclado QWERTY latinoamericano). También puedes abrirla desde la opción _Terminal_ en la barra superior izquierda de opciones o puedes optar por abrir una consola externa a Visual Studio Code, solo asegúrate de ubicarte en la carpeta raiz del repertorio. En la terminal, ejecuta el comando ***npm i***, esto instalará todas las depedendencias del proyecto.
-8. **Ejecuta el programa.**
+8. **Ejecuta el programa (ng serve).**
 Para ejecutar el programa únicamente en tu computadora, utiliza el script **ng serve**. Para ejecutar el programa en un servidor local (para acceder desde tu PC u otro dispositvo), utiliza el script **npm start**.
 Ya que Angular haya "construido" el proyecto, te mostrará la dirección o direcciones para acceder desde el navegador. Deja pulsado _Ctrl_ y haz clic izquierdo sobre una de ellas. Esto abrirá tu navegador con la página del proyecto.
+9. **Ejecuta el entorno de pruebas (ng test --code-coverage).**
+Para ejecutar el entorno de pruebas, utiliza **ng test --code-coverage**. El navegador por defecto es Chrome.
 
 ## Dependencias del proyecto.
 Todas las dependencias listadas fueron obtenidas del archivo _package.json_. Todas fueron instaladas por Angular 18.
@@ -66,17 +80,11 @@ Todas las dependencias listadas fueron obtenidas del archivo _package.json_. Tod
 - "typescript": "~5.5.2"
 
 ## ¿Cómo lo hice?
-Primero realicé una copia del código legado a una nueva rama en GitHub (la rama es 'legacy-sprint-1'). Luego moví el contenido del repertorio legado a una carpeta copia. Después creé un nuevo proyecto de Angular dentro de la carpeta raiz del repositorio con el script **ng new jstream --routing** (un proyecto Moduless). Una vez creado, moví todo el contenido de la carpeta del proyecto de Angular a la carpeta raíz del repertorio y borre la carpeta del proyecto de Angular. Hice esto para mantener la configuarción de Git y poder seguir haciendo los commits y pushes.
+No pude aplicar TDD (Test Driven Development) porque el proyecto "ya estaba hecho". Lo que hice fue realizar las funciones _it_ en los archivos de prueba para cada componente, modelo y servicio, para cada una de sus funciones y/o métodos.
 
-De acuerdo con las páginas HTML y scripts que tenía en el código legado, fui creando los componentes necesarios para replicar el proyecto con el script **ng g c** en _./src/app/core_ y _./src/app/shared/components_.
+Para cerrar sesión, la página necesita recargar la página. Esto fue una amenaza para el entorno de pruebas, así que reemplacé las partes donde utilizaba _window_ con el servicio BrowserService más un _InjectableToken<Window>_ (InjectableToken es necesario porque window no es una clase y no puede ser inyectado como un servicio o componente de Angular).
 
-En el caso de componentes que se actualizan en un intervalo de tiempo (_carousel-component_), no es posible utilizar setTimeout ni setInterval sin hacer actualizaciones a la página innesesarias o que la página se quede cargando. Esta era la solución que utilicé en el Sprint 1. Aquí utilicé NgZone para ejecutar código fuera del entorno de Angular (para evitar hacer cargas innecesarias), setInterval para iniciar los intervalos y el evento _(animationend)_ para eliminar los componentes viejos.
-
-Para el enrutamiento, hice un archivo de rutas adicional para _HomeComponent_ (donde se renderizan el resto de páginas), esto para que el componente _NavbarComponent_ (renderizando en _AppComponent_, el componente padre de todos los componentes) esté estático y no tenga que volver a definirse en cada otro componente. Esto soluciona en parte el problema de repetición de código que tenía el Sprint anterior. La otra parte del problema lo solucioné con servicios (creados con el script **ng g s** en _./src/app/shared/services_), de los cuales, uno de esos servicios sirve para obtener las películas y series del banco de datos (en _./src/app/data/movies.json_). Solo bastó con inyectar el servicio en cada uno de los componentes que lo requirieron.
-
-Adicionalmente, agregué una ruta para buscar películas y series con coincidencias en el título y trabajé la ruta 404 para cualquier ruta no esperada.
-
-Finalmente, para que Angular pudiera detectar imágenes e íconos guardados en este repo, agregué la ubicación de los recursos src/assets/_ al archivo _angular.json_ en los parámetros **assets**.
+Para RXJS, solamente lo apliqué para _DAOCatalogueService_, que es el servicio que se encarga de obtener las películas del banco de datos (local). Este servicio tiene el atributo _catalogue$_ que usa _of_ en "la información cruda" del banco de datos para transformarlos en instancias válidas de _Media_. Los componentes que necesitan de este servicio se suscriben a _catalogue$_, obtienen la lista de películas y la manipulan si así lo requieren, desuscribiéndose del servicio cuando terminaron la operación.
 
 ## Problemas conocidos.
 1. El proyecto tiene vulnerabilidades moderadas (mostrado después de instalar las dependencias). No se puede arreglar porque esto implica actualizar las dependencias de Angular a la versión 19. Utilizar Angular 19 incumple el objetivo definido por el Challenger.
@@ -84,20 +92,21 @@ Finalmente, para que Angular pudiera detectar imágenes e íconos guardados en e
 4. En ocaciones, la consola del navegador puede arrojar errores relacionados al renderizado de imágenes, indicando que son muy grandes y que deberían tener la propiedad "priority". Al hacer esto, la consola pide que las imágenes con la propiedad "priority" sean definidas en el index.html con una etiqueta link (precargado de la imagen). Esto no lo puedo hacer porque el proyecto utiliza imágenes locales en elementos _img_ dinámicos.
 5. Si bien el login es simulado, la sesión se "cerrará" al actualizar la página.
 
+## Reporte de CODE-COVERAGE.
+![Code coverage](./readme_assets/code_coverage.jpeg)
+
+## Reporte de TESTING.
+![Testing](./readme_assets/testing.jpeg)
+
 ## Retrospectiva
 ### ¿Qué hice bien?
-La migración, para este caso, no estuvo del todo complicada. Lo que más me ayudó fueron los servicios, con ellos pude elminiar la redundancia de código que tenía el Sprint 1.
+Pude realizar el alcance del código más allá del 50% (algunos superando el 80%). Para los casos que se mantienen en amarillo podrán ser cubiertos mejor cuando el proyecto implemente conexión con una base de datos o con la API de backend.
 
 ### ¿Qué no salió bien?
-No es que saliera mal, sino que no salió lo suficientemente bien. Para el caso de Inicio de Sesión, necesitaba poder comunicar componentes hermanos (el componente Home importa varios componentes. Estos son componentes hermanos) para que las animaciones funcionaran bien. Me tomó demasiado tiempo encontrar una forma de poder realizar esto, y la única forma que encontré fue implementar un modelo que llamé _CallbackAssignerObject_ (en _.src/app/models/callback-assigner.model.ts_).
-
-Básicamente es la instancia de un objeto que tiene un atributo _executer_ como una función. Este objeto se pasa entre componentes y estos componentes asignan una función a ese atributo para que los otros componentes puedan activar dicha función. Esta función puede tener cualquier funcionalidad relacionada al componente que la asigna. Por ejemplo: hay un caso en el que el popup de login y la pantalla de carga se renderizan al mismo tiempo. El popup de login "simula" el inicio de sesión y, al completarse (_onResolve_), el popup le comunica al componete padre (Home) que el usuario ha iniciado sesión y prosigue a cerrarse (con una animación) y a eliminarse del DOM. Pero el componente Home no sabe cómo decirle a la pantalla de carga que debe cerrarse, lo único que puede hacer es quitarlo del DOM en seco.
-
-Para esto, el componente Home crea una instancia de _CallbackAssignerObject_ en sí mismo y se lo pasa a la pantalla de carga cuando esta se va a renderizar. La pantalla de carga asigna una función en _executer_, que lo que hace es cerrar la misma pantalal de carga con las animaciones esperadas. Así, cuando el popup de login avisa al componente Home que ha terminado (_onResolve_), el componente Home activa el _executer_ del _CalbackAssignerObject_ para avisarle a la pantalla de carga que debe cerrarse.
-
-Es una solución que suelo hacer en proyectos de React JS (solo que allí es más limpio), pero no me ha terminado de convencer del todo en Angular. Es lo único que se me ha venido a la mente. Espero cambiarla en el futuro.
+Fue muy confuso realizar las pruebas unitarias a componentes que utilizan _animationend_ para realizar ciertos eventos. Karma y Jasmine simplemente no detectan estos eventos automáticamente y no hubo manera de hacerlo funcionar (de forma automática). Tuve que activar los eventos de forma manual y escuchar a las funciones ligadas a dichos eventos para verificar si el evento se disparó. Desconozco si realmente haya forma de que Jasmine y Karma detecten por sí solos cuando estos eventos se disparan.
 
 ### ¿Qué puedo hacer diferente?
-"Reiniciar el compilador más seguido". No sé si este sea un problema único desde mi lado, pero me ha pasado, en muchísimas ocaciones, que el "building" no se refleja en el navegador. Por más cambios que haga y por más sentido de funcionamiento cumpla el código, el navegador no lo refleja, no lo entiende. Pasé horas de, **y cito**, "histeria, dolor y sufrimiento", trantando de averiguar porqué sucedía. Sucede que, en todos los casos, había que cerrar el servidor y volver a ejecutar el script **ng serve**. Como por arte de magia, el navegador ya entendía el código de la forma esperada.
+Comprender mejor _RXJS_. Aún me es complicado entender cómo funciona esta librería. Pensaba que usar _RXJS_ era igual a la programación asíncrona, pero _RXJS_ no tiene porqué ser asíncrono, puede funcionar en el hilo principal sin problema. Tal vez debo repasar el tema en el curso de Liderly.
 
-No sé porqué sucede esto. Y aunque no es un problema directo mío o de mi código, me resta muchísmo tiempo averiguar errores de este tipo. "Reiniciar el compilador" debería ahorrarme el tiempo (y el dolor de cabeza) en el futuro.
+## Notas del desarrollador
+Las imágenes del MOCKUP se encuentran en la segunda sección: _Imágenes de la idea principal (MOCKUP)._

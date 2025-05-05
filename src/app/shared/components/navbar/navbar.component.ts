@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
 })
 export class NavbarComponent {
   /** Evento que se disparará al hacer clic sobre la imagen del usuario. */
-  @Input() onUserImgClick!: () => void;
+  @Input({ required: true }) onUserImgClick!: () => void;
 
   constructor(private router: Router) { }
 

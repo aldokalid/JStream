@@ -1,6 +1,7 @@
 import { NgFor, NgIf } from '@angular/common';
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import Media from 'src/app/models/media.model';
 import { MediaItemComponent } from 'src/app/shared/components/media-item/media-item.component';
 import { DAOCatalogueService } from 'src/app/shared/services/daocatalogue.service';
@@ -13,9 +14,10 @@ import { DAOCatalogueService } from 'src/app/shared/services/daocatalogue.servic
   styleUrl: './search.component.scss'
 })
 export class SearchComponent {
-  @ViewChild('itemsContainer') private itemsContainer!: ElementRef<HTMLDivElement>;
-  @ViewChild('searchInput') private searchInput!: ElementRef<HTMLInputElement>;
+  @ViewChild('itemsContainer') itemsContainer!: ElementRef<HTMLDivElement>;
+  @ViewChild('searchInput') searchInput!: ElementRef<HTMLInputElement>;
   private mediaItems?: Media[];
+  private media$!: Subscription;
 
   constructor(private daoCatalogue: DAOCatalogueService, private router: Router) { }
 
@@ -27,13 +29,23 @@ export class SearchComponent {
 
     if (!value)
       this.mediaItems = undefined;
-    else
-      this.mediaItems = this.daoCatalogue.searchCatalogue(value);
+    else { // Busca coinciencias en el título.
+      this.media$ = this.daoCatalogue.catalogue$.subscribe({
+        next: data => {
+          this.mediaItems = data
+            .filter(d => d.getTitle().toLowerCase().includes(value.toLowerCase().replace(/\s+/, ' ')))
+        }
+      });
+
+      this.media$.unsubscribe();
+    }
   }
 
   /** Controlador de clics del contenedor de resultados. */
   onSearchItemsContainerClick(e: MouseEvent) {
-    if (!this.itemsContainer || this.itemsContainer.nativeElement === e.target)
+    const elem = (e.target as HTMLElement);
+
+    if (elem === this.itemsContainer.nativeElement)
       return;
 
     const mediaItem = Array.from(this.itemsContainer.nativeElement.children).find(c => {

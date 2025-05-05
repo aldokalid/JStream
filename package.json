@@ -7,6 +7,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
+    "test-cov": "ng test --watch=false --code-coverage",
     "serve:ssr:jstream": "node dist/jstream/server/server.mjs"
   },
   "private": true,

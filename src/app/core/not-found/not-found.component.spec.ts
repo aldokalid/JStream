@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { NotFoundComponent } from './not-found.component';
+import { By } from '@angular/platform-browser';
 
 describe('NotFoundComponent', () => {
   let component: NotFoundComponent;
@@ -19,5 +20,13 @@ describe('NotFoundComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should invoke click handler before clicking Go To Home button', () => {
+    spyOn(component, 'onGoToHomeBtnClick').and.callThrough();
+
+    (fixture.debugElement.query(By.css('#go-home-btn')).nativeElement as HTMLElement).click();
+
+    expect(component.onGoToHomeBtnClick).toHaveBeenCalled();
   });
 });

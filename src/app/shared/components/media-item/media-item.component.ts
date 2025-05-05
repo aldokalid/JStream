@@ -25,7 +25,7 @@ export class MediaItemComponent {
   }
 
   /** Asgina una carátula */
-  @Input()
+  @Input({ required: true })
   set cover(cover: string) {
     this._cover = cover;
   }
@@ -36,7 +36,7 @@ export class MediaItemComponent {
   }
 
   /** Asigna un identificador. */
-  @Input()
+  @Input({ required: true })
   set id(id: number | null) {
     this._id = id;
   }
@@ -47,7 +47,7 @@ export class MediaItemComponent {
   }
 
   /** Asgina un título. */
-  @Input()
+  @Input({ required: true })
   set title(title: string) {
     this._title = title;
   }

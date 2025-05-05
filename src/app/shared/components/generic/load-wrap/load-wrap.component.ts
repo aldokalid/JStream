@@ -1,5 +1,5 @@
-import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
-import { CallbackAssignerObject } from 'src/app/models/callback-assigner.model';
+import { Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { LoadWrapService } from 'src/app/shared/services/load-wrap.service';
 
 @Component({
   selector: 'app-load-wrap',
@@ -8,23 +8,24 @@ import { CallbackAssignerObject } from 'src/app/models/callback-assigner.model';
   templateUrl: './load-wrap.component.html',
   styleUrl: './load-wrap.component.scss'
 })
-export class LoadWrapComponent implements OnInit {
-  /** Un objeto de asignación de función. Al ejecutarlo, el componente se esconderá y, finalmente,
-   * llamará a 'onDispose'. */
-  @Input() disposeComponent!: CallbackAssignerObject;
+export class LoadWrapComponent implements OnInit, OnDestroy {
   /** Una función que se activará cuando el componente se haya ocultado del DOM. */
-  @Input() onDispose!: () => void;
-  /** Una función para ocultar el componente. */
-  @Input() onHide!: () => void;
+  @Input({ required: true }) onDispose!: () => void;
   /** Referencia a la cortina del componente. */
-  @ViewChild('loadingWrapper') loadingWrapper!: ElementRef;
+  @ViewChild('loadingWrapper') loadingWrapper!: ElementRef<HTMLDivElement>;
 
   private _statusClass: ' show' | ' hide' | '' = ' show';
+
+  constructor(private loadWrapService: LoadWrapService) { }
 
   // *** ANGULAR ***
   ngOnInit(): void {
     // Asigna la función de ejecución al objeto recibido.
-    this.disposeComponent.executer = () => this._statusClass = ' hide';
+    this.loadWrapService.setLoadWrapOnHide(() => this._statusClass = ' hide');
+  }
+
+  ngOnDestroy(): void {
+    this.loadWrapService.setLoadWrapOnHide();
   }
 
   // *** EVENTOS ***

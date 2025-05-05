@@ -7,9 +7,9 @@
     <h3>Todas las tendencias</h3>
     <div id="options-container">
       <!-- Elemento de carga. -->
-      <app-media-item *ngIf="!getCatalogue()" [cover]="''" [id]="null" [title]="''" />
+      <app-media-item *ngIf="getTendencies().length === 0" [cover]="''" [id]="null" [title]="''" />
       <!-- Tendencias. -->
-      <div *ngIf="getCatalogue() && getTendencies().length > 0" (click)="onTendenciesClick($event)" #tendenciesHolder>
+      <div *ngIf="getTendencies().length > 0" (click)="onTendenciesClick($event)" #tendenciesHolder>
         <app-media-item *ngFor="let media of getTendencies()" [cover]="media.getCover()" [id]="media.getId()"
           [title]="media.getTitle()" />
       </div>

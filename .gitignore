@@ -44,3 +44,4 @@ Thumbs.db
 # Mein.
 /src/app/environments/*
 !/src/app/environments/.gitkeep
+to-do.txt
