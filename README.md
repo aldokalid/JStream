@@ -32,19 +32,19 @@ Ubícate al tope de esta página y haz clic en el obvio botón verde "<> Code" y
 Dirígete a tu carpeta de descargas (o donde sea que lo hayas guardado) y descomprime el archivo. Puedes utilizar la herramienta integrada de Windows para descomprimir archivos ZIP o cualquier otra de tu agrado.
 3. **Descarga e instala Visual Studio Code.**
 _Si ya tienes Visual Studio Code instalado, salta al siguiente paso_. [Haz clic aquí](https://code.visualstudio.com/) para descargar Visual Studio Code. Una vez descargado, lo instalas.
-3.1 **Descarga extensiones requeridas de Visual Studio Code.**
-- [NET Install Tool](https://marketplace.visualstudio.com/items?itemName=ms-dotnettools.vscode-dotnet-runtime)
-- [C# support](https://marketplace.visualstudio.com/items?itemName=ms-dotnettools.csharp)
-- [C# Dev Kit](https://marketplace.visualstudio.com/items?itemName=ms-dotnettools.csdevkit)
-4. **Descarga e instala Node JS.**
+4. **Descarga extensiones requeridas de Visual Studio Code.**
+  - [NET Install Tool](https://marketplace.visualstudio.com/items?itemName=ms-dotnettools.vscode-dotnet-runtime)
+  - [C# support](https://marketplace.visualstudio.com/items?itemName=ms-dotnettools.csharp)
+  - [C# Dev Kit](https://marketplace.visualstudio.com/items?itemName=ms-dotnettools.csdevkit)
+5. **Descarga e instala Node JS.**
 _Si ya tienes Node JS instalado, salta al siguiente paso_. [Haz clic aquí](https://nodejs.org/) para descargar NodeJS (te recomiendo que descargues la versión LTS). Una vez descargado, lo instalas. Puede que no sea necesario, pero te sugiero reinicar tu computadora después de la instalación.
-5. **Descarga e instala .NET 9**
+6. **Descarga e instala .NET 9**
 _Si ya tienes .NET instalado, salta al siguiente paso_. [Haz clic aquí](https://dotnet.microsoft.com/es-es/download) para descargar .NET 9. Una vez descargado, lo instalas. Puede que no sea necesario, pero te sugiero reinicar tu computadora después de la instalación.
-6. **Descarga e instala Microsoft SQL Server**
+7. **Descarga e instala Microsoft SQL Server**
 _Si ya lo tienes instalado, salta al siguiente paso_. [Haz clic aquí](https://www.microsoft.com/es-mx/sql-server/sql-server-downloads) Y descarga la versión Developer. Una vez descargado, lo instalas (instalación básica). Puede que no sea necesario, pero te sugiero reinicar tu computadora después de la instalación.
-7. **Descarga e instala SQL Server Management Studio**
+8. **Descarga e instala SQL Server Management Studio**
 _Si ya lo tienes instalado, salta al siguiente paso_. [Haz clic aquí](https://learn.microsoft.com/es-es/ssms/install/install) para descargar e instalar (instalación básica) SSMS.
-8. **PREPARA LA BASE DE DATOS Y LAS CREDENCIALES**
+9. **PREPARA LA BASE DE DATOS Y LAS CREDENCIALES**
 Ejecuta SSMS. Si tienes problemas para abrirlo, considera marcar la casilla _Trust server certificate_ y, de ser necesario, ejecutar el programa como administrador. También puedes probar con dejar _Encryption_ en _Optional_.
 
 Del lado izquierdo, tendrás el _Object Explorer_. En el árbol, ubícate en _Databases_, haz clic derecho sobre él y, luego, clic izquierdo en _Restore Database..._. En la sección _Source_, selecciona _Device:_ y haz clic en el botón _..._ Eso abrirá otra ventana, deberás hacer clic en el botón _Add_ y seleccionar el archivo de la base de datos ubicado en este repertorio: _server/databases/**jstream.bak**_. Haz clic en _Ok_ y la base de datos estará restaurada.
@@ -71,13 +71,13 @@ GO
 ```
 _Ojo_: Este último bloque lo considero como una vulnerabilidad, y debe ser corregida en el futuro.
 
-9. **Abre el repositorio en Visual Studio Code.**
+10. **Abre el repositorio en Visual Studio Code.**
 Abre Visual Studio Code y, en la parte superior izquierda, haz clic en _Archivo > Abrir carpeta_. Luego, busca la carpeta que descomprimiste en el paso 2 y ábrela (asegúrate que sea la carpeta más directa al repositorio, es decir, **la carpeta en donde se encuentra este mismo archivo**: _README.md_). Esto debería mostrar el repositorio en Visual Studio Code.
-10. **Instala Angular JS.**
+11. **Instala Angular JS.**
 _Si ya tienes Angular JS instalado, salta al siguiente paso_. [Haz clic aquí](https://angular.dev/installation) para instalar Angular (Node JS ya debe estar instalado). Asegúrate de instalar la versión 18 o superior.
-11. **Instala las dependencias.**
+12. **Instala las dependencias.**
 En Visual Studio Code, haz la combinación de teclas **Ctrl + Ñ** para abrir una terminal (la tecla _Ñ_ se ubica a la derecha de la tecla _L_ en un teclado QWERTY latinoamericano). También puedes abrirla desde la opción _Terminal_ en la barra superior izquierda de opciones o puedes optar por abrir una consola externa a Visual Studio Code, solo asegúrate de ubicarte en la carpeta raiz del repertorio. En la terminal, ejecuta el comando ***npm run install-all***, esto instalará todas las depedendencias de Angular (el cliente) y .NET (el servidor).
-12. **Prepara los entornos**
+13. **Prepara los entornos**
 Antes de ejecutar nada, debes preparar los entornos (environments) tanto del cliente como del servidor para que el proyecto pueda ejecutarse:
 - _Cliente_
 Crea el archivo _client/src/app/environments/environment.ts_ con la siguiente estructura:
@@ -118,12 +118,12 @@ public const string DB_STRING = $"Server={SERVER};Database={DATABASE};Trusted_Co
 ```
 No olvides asignar a **TRUSTED_CONNECION** como **True**.
 
-13. **Ejecuta el programa (ng serve y dotnet run).**
+14. **Ejecuta el programa (ng serve y dotnet run).**
 Necesitarás dos terminales: una para ejecutar el servidor y otra para ejecutar el cliente. En una de ellas (ubicada en la raiz del repertorio), ejecuta el comando **npm run server**. Esto compilará el servidor en el servidor local de tu computadora. En otra terminal (también ubicada en la raiz del repertorio), ejecuta el comando **npm run client** para ejecutar el programa en tu computadora. Si quieres utilizar el programa en algún otro dispositivo de tu red local, utiliza **npm run client-host**. Ya que Angular haya "construido" el proyecto, te mostrará la dirección o direcciones para acceder desde el navegador. Deja pulsado _Ctrl_ y haz clic izquierdo sobre una de ellas. Esto abrirá tu navegador con la página del proyecto.
-14. **Ejecuta el entorno de pruebas (ng test --code-coverage). (VER PROBLEMAS CONOCIDOS)**
+15. **Ejecuta el entorno de pruebas (ng test --code-coverage). (VER PROBLEMAS CONOCIDOS)**
 Para ejecutar el entorno de pruebas, abre una terminal ubicada en la raiz del repertorio y utiliza **npm run client-test**. El navegador por defecto es Chrome.
 
-14. **A TOMAR EN CUENTA**
+16. **A TOMAR EN CUENTA**
 La creación de usuarios no está disponible, pero puedes entrar con las credenciales:
   - Usuario: admin
   - Contraseña: admin
