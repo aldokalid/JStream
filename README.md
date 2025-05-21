@@ -3,8 +3,9 @@
 JStream es una plataforma web de trasmisión de contenido audiovisual. Es un proyecto en desarrollo en conjunto con el programa del Semillero de desarrolladores MEGA.
 
 ## Objetivos.
-- Implementación de funcionalidades asíncronas en el proyecto de Angular del Hub de entretenimiento.
-- 50% de testing code coverage en el proyecto.
+- Implementar la base de datos en T-SQL en el proyecto de HUB de entretenimiento.
+- Todo el SQL en un archivo aparte.
+- No debe haber credenciales de BD en el repositorio.
 
 ## Nombre del desarrollador
 Aldo Kalid Hernández Camarena
@@ -24,31 +25,113 @@ Aldo Kalid Hernández Camarena
 ![Imagen de mockup 5](./readme_assets/m5.JPG)
 
 ## ¿Cómo ejecutar el programa?
-Aquí te explico cómo ejecutar el programa con el script **ng serve** en un entorno con Visual Studio Code y Windows 10/11 (estos pasos podrían ser diferentes en otros SOs).
+Aquí te explico cómo ejecutar el programa con el script **ng serve** y **dotnet run** en un entorno con Visual Studio Code y Windows 10/11 (estos pasos podrían ser diferentes en otros SOs).
 1. **Descarga el repositorio.**
 Ubícate al tope de esta página y haz clic en el obvio botón verde "<> Code" y, luego, haz clic en "Download ZIP". Esto iniciará (o solicitará, depende de tu navegador) la descarga.
 2. **Descomprime el repositorio.**
 Dirígete a tu carpeta de descargas (o donde sea que lo hayas guardado) y descomprime el archivo. Puedes utilizar la herramienta integrada de Windows para descomprimir archivos ZIP o cualquier otra de tu agrado.
 3. **Descarga e instala Visual Studio Code.**
 _Si ya tienes Visual Studio Code instalado, salta al siguiente paso_. [Haz clic aquí](https://code.visualstudio.com/) para descargar Visual Studio Code. Una vez descargado, lo instalas.
+3.1 **Descarga extensiones requeridas de Visual Studio Code.**
+- [NET Install Tool](https://marketplace.visualstudio.com/items?itemName=ms-dotnettools.vscode-dotnet-runtime)
+- [C# support](https://marketplace.visualstudio.com/items?itemName=ms-dotnettools.csharp)
+- [C# Dev Kit](https://marketplace.visualstudio.com/items?itemName=ms-dotnettools.csdevkit)
 4. **Descarga e instala Node JS.**
 _Si ya tienes Node JS instalado, salta al siguiente paso_. [Haz clic aquí](https://nodejs.org/) para descargar NodeJS (te recomiendo que descargues la versión LTS). Una vez descargado, lo instalas. Puede que no sea necesario, pero te sugiero reinicar tu computadora después de la instalación.
-5. **Abre el repositorio en Visual Studio Code.**
+5. **Descarga e instala .NET 9**
+_Si ya tienes .NET instalado, salta al siguiente paso_. [Haz clic aquí](https://dotnet.microsoft.com/es-es/download) para descargar .NET 9. Una vez descargado, lo instalas. Puede que no sea necesario, pero te sugiero reinicar tu computadora después de la instalación.
+6. **Descarga e instala Microsoft SQL Server**
+_Si ya lo tienes instalado, salta al siguiente paso_. [Haz clic aquí](https://www.microsoft.com/es-mx/sql-server/sql-server-downloads) Y descarga la versión Developer. Una vez descargado, lo instalas (instalación básica). Puede que no sea necesario, pero te sugiero reinicar tu computadora después de la instalación.
+7. **Descarga e instala SQL Server Management Studio**
+_Si ya lo tienes instalado, salta al siguiente paso_. [Haz clic aquí](https://learn.microsoft.com/es-es/ssms/install/install) para descargar e instalar (instalación básica) SSMS.
+8. **PREPARA LA BASE DE DATOS Y LAS CREDENCIALES**
+Ejecuta SSMS. Si tienes problemas para abrirlo, considera marcar la casilla _Trust server certificate_ y, de ser necesario, ejecutar el programa como administrador. También puedes probar con dejar _Encryption_ en _Optional_.
+
+Del lado izquierdo, tendrás el _Object Explorer_. En el árbol, ubícate en _Databases_, haz clic derecho sobre él y, luego, clic izquierdo en _Restore Database..._. En la sección _Source_, selecciona _Device:_ y haz clic en el botón _..._ Eso abrirá otra ventana, deberás hacer clic en el botón _Add_ y seleccionar el archivo de la base de datos ubicado en este repertorio: _server/databases/**jstream.bak**_. Haz clic en _Ok_ y la base de datos estará restaurada.
+
+La autenticación en la API se hace por SQL, por lo que necesitarás un **LOGIN**. Ejecuta el siguiente bloque en un query haciento clic en la opción _New Query_ de la barra superior:
+```SQL
+CREATE LOGIN tuusuario
+WITH PASSWORD = 'tucontraseña'
+GO
+```
+Luego, crea el usuario:
+```SQL
+USE jstream
+GO
+CREATE USER jstreamer FOR LOGIN jstreamer
+GO
+```
+Y, finalmente, dale los permisos:
+```SQL
+USE jstream;
+GO
+EXEC sp_addrolemember 'db_owner', 'jstreamer'
+GO
+```
+_Ojo_: Este último bloque lo considero como una vulnerabilidad, y debe ser corregida en el futuro.
+
+9. **Abre el repositorio en Visual Studio Code.**
 Abre Visual Studio Code y, en la parte superior izquierda, haz clic en _Archivo > Abrir carpeta_. Luego, busca la carpeta que descomprimiste en el paso 2 y ábrela (asegúrate que sea la carpeta más directa al repositorio, es decir, **la carpeta en donde se encuentra este mismo archivo**: _README.md_). Esto debería mostrar el repositorio en Visual Studio Code.
-6. **Instala Angular JS.**
+10. **Instala Angular JS.**
 _Si ya tienes Angular JS instalado, salta al siguiente paso_. [Haz clic aquí](https://angular.dev/installation) para instalar Angular (Node JS ya debe estar instalado). Asegúrate de instalar la versión 18 o superior.
-7. **Instala las dependencias.**
-En Visual Studio Code, haz la combinación de teclas **Ctrl + Ñ** para abrir una terminal (la tecla _Ñ_ se ubica a la derecha de la tecla _L_ en un teclado QWERTY latinoamericano). También puedes abrirla desde la opción _Terminal_ en la barra superior izquierda de opciones o puedes optar por abrir una consola externa a Visual Studio Code, solo asegúrate de ubicarte en la carpeta raiz del repertorio. En la terminal, ejecuta el comando ***npm i***, esto instalará todas las depedendencias del proyecto.
-8. **Ejecuta el programa (ng serve).**
-Para ejecutar el programa únicamente en tu computadora, utiliza el script **ng serve**. Para ejecutar el programa en un servidor local (para acceder desde tu PC u otro dispositvo), utiliza el script **npm start**.
-Ya que Angular haya "construido" el proyecto, te mostrará la dirección o direcciones para acceder desde el navegador. Deja pulsado _Ctrl_ y haz clic izquierdo sobre una de ellas. Esto abrirá tu navegador con la página del proyecto.
-9. **Ejecuta el entorno de pruebas (ng test --code-coverage).**
-Para ejecutar el entorno de pruebas, utiliza **ng test --code-coverage**. El navegador por defecto es Chrome.
+11. **Instala las dependencias.**
+En Visual Studio Code, haz la combinación de teclas **Ctrl + Ñ** para abrir una terminal (la tecla _Ñ_ se ubica a la derecha de la tecla _L_ en un teclado QWERTY latinoamericano). También puedes abrirla desde la opción _Terminal_ en la barra superior izquierda de opciones o puedes optar por abrir una consola externa a Visual Studio Code, solo asegúrate de ubicarte en la carpeta raiz del repertorio. En la terminal, ejecuta el comando ***npm run install-all***, esto instalará todas las depedendencias de Angular (el cliente) y .NET (el servidor).
+12. **Prepara los entornos**
+Antes de ejecutar nada, debes preparar los entornos (environments) tanto del cliente como del servidor para que el proyecto pueda ejecutarse:
+- _Cliente_
+Crea el archivo _client/src/app/environments/environment.ts_ con la siguiente estructura:
+```typescript
+export const environment = {
+  /** Bandera de producción. */
+  PRODUCTION: false,
+  /** Nombre del servidor. */
+  SERVER_NAME: 'tuservidor',
+  /** Puerto */
+  PORT: 'tupuerto'
+}
+
+// Evita que el objeto sea modificado.
+Object.freeze(environment);
+```
+La propiedad **SERVER_NAME** es el dominio donde se ubica tu API. Si es de acceso local, utiliza solo **localhost** (evita usar _http/https_). **PORT** es el puerto por donde escucha tu API. Prueba con ejecutar el server como se indica en el **Paso 10** para averiguar el puerto que utiliza tu servidor.
+
+- _Servidor_
+Crea el archivo _server/environments/JStreamEnvironment.cs_ con la siguiente estructura:
+```c#
+namespace apijstream.environments;
+
+public static class JStreamEnvironment
+{
+  public const string SERVER = "servidor de la base de datos";
+  public const string DATABASE = "nombre de la base de datos";
+  public const string TRUSTED_CONNECTION = "True/False";
+  public const string TRUST_SERVER_CERTIFICATE = "True/False";
+  public const string USER_ID = "nombre de usuario SQL";
+  public const string PASSWORD = "contraseña SQL";
+  public const string DB_STRING = $"Server={SERVER};Database={DATABASE};User Id={USER_ID};Password={PASSWORD};TrustServerCertificate={TRUST_SERVER_CERTIFICATE}";
+}
+```
+**SERVER** es el nombre del servidor de tu base de datos en MSSQL. Si se ubica en tu computadora, puedes asignar solo un punto (.). **DATABASE** es el nombre de la base de datos. **TRUSTED_CONNECTION** se usa para cuando quieres utilizar la autenticación de Windows (**True**) en lugar de la autenticación SQL (**False**). **TRUST_SERVER_CERTIFICATE** es para confiar o desconfiar en el certificado del servidor (si lo tiene, te recomiendo que lo dejes en **True**). **USER_ID** y **PASSWORD** son las credenciales para la autenticación SQL, no los uses con la autenticación de Windows al mismo tiempo. **DB_STRING** es la cadena de conexión por defecto. Está configurada para utilizar la autenticación SQL. Si prefieres utilizar la autenticación de Windows, reempalza **DB_STRING** por:
+```c#
+public const string DB_STRING = $"Server={SERVER};Database={DATABASE};Trusted_Connection={TRUSTED_CONNECTION};TrustServerCertificate={TRUST_SERVER_CERTIFICATE}";
+```
+No olvides asignar a **TRUSTED_CONNECION** como **True**.
+
+13. **Ejecuta el programa (ng serve y dotnet run).**
+Necesitarás dos terminales: una para ejecutar el servidor y otra para ejecutar el cliente. En una de ellas (ubicada en la raiz del repertorio), ejecuta el comando **npm run server**. Esto compilará el servidor en el servidor local de tu computadora. En otra terminal (también ubicada en la raiz del repertorio), ejecuta el comando **npm run client** para ejecutar el programa en tu computadora. Si quieres utilizar el programa en algún otro dispositivo de tu red local, utiliza **npm run client-host**. Ya que Angular haya "construido" el proyecto, te mostrará la dirección o direcciones para acceder desde el navegador. Deja pulsado _Ctrl_ y haz clic izquierdo sobre una de ellas. Esto abrirá tu navegador con la página del proyecto.
+14. **Ejecuta el entorno de pruebas (ng test --code-coverage). (VER PROBLEMAS CONOCIDOS)**
+Para ejecutar el entorno de pruebas, abre una terminal ubicada en la raiz del repertorio y utiliza **npm run client-test**. El navegador por defecto es Chrome.
+
+14. **A TOMAR EN CUENTA**
+La creación de usuarios no está disponible, pero puedes entrar con las credenciales:
+  - Usuario: admin
+  - Contraseña: admin
 
 ## Dependencias del proyecto.
 Todas las dependencias listadas fueron obtenidas del archivo _package.json_. Todas fueron instaladas por Angular 18.
 
-### dependencies.
+### dependencies (Angular).
 - "@angular/animations": "^18.2.0",
 - "@angular/common": "^18.2.0",
 - "@angular/compiler": "^18.2.0",
@@ -64,7 +147,7 @@ Todas las dependencias listadas fueron obtenidas del archivo _package.json_. Tod
 - "tslib": "^2.3.0",
 - "zone.js": "~0.14.10"
 
-### devDependencies.
+### devDependencies (Angular).
 - "@angular-devkit/build-angular": "^18.2.18",
 - "@angular/cli": "^18.2.18",
 - "@angular/compiler-cli": "^18.2.0",
@@ -79,34 +162,41 @@ Todas las dependencias listadas fueron obtenidas del archivo _package.json_. Tod
 - "karma-jasmine-html-reporter": "~2.1.0",
 - "typescript": "~5.5.2"
 
+### Packages (NET)
+- "Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.5"
+- "Microsoft.EntityFrameworkCore.Tools" Version="9.0.5">
+
 ## ¿Cómo lo hice?
-No pude aplicar TDD (Test Driven Development) porque el proyecto "ya estaba hecho". Lo que hice fue realizar las funciones _it_ en los archivos de prueba para cada componente, modelo y servicio, para cada una de sus funciones y/o métodos.
+Moví el proyecto de Angular a la subcarpeta _client_ para poder crear el BACKEND en la subcarpeta _server_.
 
-Para cerrar sesión, la página necesita recargar la página. Esto fue una amenaza para el entorno de pruebas, así que reemplacé las partes donde utilizaba _window_ con el servicio BrowserService más un _InjectableToken<Window>_ (InjectableToken es necesario porque window no es una clase y no puede ser inyectado como un servicio o componente de Angular).
+Para la base de datos, creé las tablas y relaciones con Queries. Lo más relevante es que utilicé procedimientos para realizar algunas operaciones como crear una cuenta (a pesar de no estar implementado) e iniciar sesión. La autenticación para Backend se realiza por la autenticación SQL (practicidad).
 
-Para RXJS, solamente lo apliqué para _DAOCatalogueService_, que es el servicio que se encarga de obtener las películas del banco de datos (local). Este servicio tiene el atributo _catalogue$_ que usa _of_ en "la información cruda" del banco de datos para transformarlos en instancias válidas de _Media_. Los componentes que necesitan de este servicio se suscriben a _catalogue$_, obtienen la lista de películas y la manipulan si así lo requieren, desuscribiéndose del servicio cuando terminaron la operación.
+Para el Backend, creé el proyecto con el comando **dotnet new webapp --name apijstream**. Implementé los modelos
+exactamente como los de mis tablas en la base de datos (al menos lo más parecidos posibles). Implementa una forma de mantener las sesiones iniciadas mediante un arreglo que almacena los nombres de usuario iniciados (algo que, en términos de seguridad, es una muy mala práctica). Implementé puntos para iniciar, cerrar y comprobar sesión, y puntos para obtener el catálogo de películas y series.
+
+Para el frontend, con la implementación de la API, hice los cambios necesarios para ya no depender de _movies.json_ y que la información obtenida del catálogo sea completamente reactiva y asíncrona.
+
+## Reporte de CODE-COVERAGE (anterior).
+![Code coverage](./readme_assets/code_coverage.jpeg)
+
+## Reporte de TESTING (anterior).
+![Testing](./readme_assets/testing.jpeg)
+
+## Modelo ER.
+![ER](./readme_assets/er.png)
 
 ## Problemas conocidos.
 1. El proyecto tiene vulnerabilidades moderadas (mostrado después de instalar las dependencias). No se puede arreglar porque esto implica actualizar las dependencias de Angular a la versión 19. Utilizar Angular 19 incumple el objetivo definido por el Challenger.
 2. El componente _session-popup.component_ (el que aparece al hacer clic sobre la imagen del usuario después de haber iniciado sesión) desaparece del DOM cuando se hace clic fuera del componente excepto cuando el clic se hace sobre el _Navbar_. Esto último es un comportamiento no deseado. 
 4. En ocaciones, la consola del navegador puede arrojar errores relacionados al renderizado de imágenes, indicando que son muy grandes y que deberían tener la propiedad "priority". Al hacer esto, la consola pide que las imágenes con la propiedad "priority" sean definidas en el index.html con una etiqueta link (precargado de la imagen). Esto no lo puedo hacer porque el proyecto utiliza imágenes locales en elementos _img_ dinámicos.
-5. Si bien el login es simulado, la sesión se "cerrará" al actualizar la página.
-
-## Reporte de CODE-COVERAGE.
-![Code coverage](./readme_assets/code_coverage.jpeg)
-
-## Reporte de TESTING.
-![Testing](./readme_assets/testing.jpeg)
+5. La generación de reporte CODE-COVERAGE está completamente roto. Será arreglado tan pronto como averigüe qué fue lo que lo rompió.
 
 ## Retrospectiva
 ### ¿Qué hice bien?
-Pude realizar el alcance del código más allá del 50% (algunos superando el 80%). Para los casos que se mantienen en amarillo podrán ser cubiertos mejor cuando el proyecto implemente conexión con una base de datos o con la API de backend.
+Con la implementación del API Server, ya pude utilizar, al máximo potencial, las características de RXJS, dejando atrás la dependencia _movies.json_. Los Observables y los Subjects dedicados a obtener el catálogo y el servicio de autenticación me han dejado satisfecho.
 
 ### ¿Qué no salió bien?
-Fue muy confuso realizar las pruebas unitarias a componentes que utilizan _animationend_ para realizar ciertos eventos. Karma y Jasmine simplemente no detectan estos eventos automáticamente y no hubo manera de hacerlo funcionar (de forma automática). Tuve que activar los eventos de forma manual y escuchar a las funciones ligadas a dichos eventos para verificar si el evento se disparó. Desconozco si realmente haya forma de que Jasmine y Karma detecten por sí solos cuando estos eventos se disparan.
+Rompí el entorno de pruebas de CODE COVERAGE. En algún punto algo debió fallar, desde que moví el proyecto de Angular a la subcarpeta _client_ hasta que terminé la implementación del backend. Gasté mucho tiempo averigüando el problema para no acabar de encontrarlo.
 
 ### ¿Qué puedo hacer diferente?
-Comprender mejor _RXJS_. Aún me es complicado entender cómo funciona esta librería. Pensaba que usar _RXJS_ era igual a la programación asíncrona, pero _RXJS_ no tiene porqué ser asíncrono, puede funcionar en el hilo principal sin problema. Tal vez debo repasar el tema en el curso de Liderly.
-
-## Notas del desarrollador
-Las imágenes del MOCKUP se encuentran en la segunda sección: _Imágenes de la idea principal (MOCKUP)._
+Revisar cuáles cosas se mantienen y cuáles se rompen cuando hago cambios importantes y no perder mucho tiempo intentando arreglarlos para evitar atrasar la entrega del Sprint.

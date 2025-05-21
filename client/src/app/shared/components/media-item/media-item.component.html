@@ -1,0 +1,6 @@
+<div [id]="'media-' + getId()" [class]="!renderable() ? 'media-item wait': 'media-item'">
+  <div class="media-img-container" *ngIf="renderable()">
+    <img [ngSrc]="getCover()? 'assets/images/' + getCover() : ''" fill alt="media-img">
+  </div>
+  <h4 class="media-title" *ngIf="renderable()">{{getTitle()}}</h4>
+</div>

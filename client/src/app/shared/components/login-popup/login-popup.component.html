@@ -1,0 +1,17 @@
+<div (animationend)="onComponentAnimationEnd($event)" [class]="'popup-wrapper' + getStatusClass()" id="login-popup"
+  #loginWrapper>
+  <div class="popup">
+    <div class="popup-top-bar">
+      <p>Iniciar sesión</p>
+      <app-button [disabled]="isWaiting()" [onClick]="onCloseBtnClick" [placeholder]="{ default: 'X' }" />
+    </div>
+    <div class="popup-content">
+      <app-inputbar [onChange]="onUsernameInputbarChange" [placeholder]="{ default: 'Usuario' }" [maxLength]="15"
+        [disabled]="isWaiting()" [filters]="getUsernameFilters()" />
+      <app-inputbar [onChange]="onPasswordInputbarChange" [placeholder]="{ default: 'Contraseña' }" [type]="'password'"
+        [disabled]="isWaiting()" />
+      <app-button (onAction)="onLoginBtnClick($event)" id="popup-login-btn"
+        [placeholder]="{ default: 'Iniciar sesión' }" />
+    </div>
+  </div>
+</div>

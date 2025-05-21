@@ -1,0 +1,109 @@
+div.inputbar {
+  position: relative;
+  padding: 0.8rem 4px 4px;
+}
+
+div.inputbar>* {
+  transition: 0.25s;
+}
+
+div.inputbar>input {
+  color: #6b6b94;
+  background: none;
+  border: 2px solid #414163;
+  border-radius: 10px;
+  font-size: 1.1rem;
+  margin: 5px auto;
+  padding: 10px;
+  width: calc(100% - 24px);
+}
+
+div.inputbar.err>input {
+  color: #946b6b;
+  background: #471919;
+  border: 2px solid #862121;
+  border-radius: 10px;
+  font-size: 1.1rem;
+  margin: 5px auto;
+  padding: 10px;
+  width: calc(100% - 24px);
+}
+
+div.inputbar.err>p,
+div.inputbar.err>input:focus~p {
+  background-color: #862121;
+  color: #d48585;
+}
+
+div.inputbar.err>input:not(:focus)~p {
+  animation: input-error-shake-label 0.3s ease-in-out 0s 1 normal none;
+  ;
+}
+
+@keyframes input-error-shake-label {
+  10% {
+    transform: translateX(1px);
+  }
+
+  25% {
+    transform: translateX(-2px);
+  }
+
+  50% {
+    transform: translateX(5px);
+  }
+
+  75% {
+    transform: translateX(-2px);
+  }
+
+  90% {
+    transform: translateX(1px);
+  }
+
+  100% {
+    transform: translateX(0px);
+  }
+}
+
+div.inputbar>input::placeholder {
+  opacity: 0;
+}
+
+div.inputbar>input:focus {
+  color: #6b6b94;
+  background-color: #2a2a3d;
+  outline: none;
+}
+
+div.inputbar>p {
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  color: #6b6b94;
+  font-size: 0.8rem;
+  font-weight: bold;
+  left: 16px;
+  max-width: calc(100% - 38px);
+  position: absolute;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  padding: 2px 2px 1px;
+  top: 0px;
+  white-space: nowrap;
+}
+
+div.inputbar>input:focus~p {
+  background-color: #414163;
+  color: #202030;
+}
+
+div.inputbar>input[disabled] {
+  border-color: #636363ab;
+  background-color: #5c5c5c3b;
+  color: #c2c2c271;
+}
+
+div.inputbar>input[disabled]~p {
+  color: #00000083;
+  background-color: #636363ab;
+}

@@ -1,0 +1,24 @@
+<div id="carousel" [class]="getMedias().length >= 1 ? '' : 'wait'">
+  <!-- Elemento del carrusel actual. -->
+  <div class="carousel-item" *ngIf="getCurrentMedia()">
+    <div class="carousel-img-container">
+      <img [src]="'assets/images/' + getCurrentMedia()?.getBackground()" alt="carousel-img">
+      <span class="carousel-curtain"></span>
+    </div>
+    <div class="carousel-info-container">
+      <h2 class="carousel-title">{{getCurrentMedia()?.getTitle()}}</h2>
+      <app-button [onClick]="onCarouselItemClick" [placeholder]="{ default: 'Ver' }" />
+    </div>
+  </div>
+  <!-- Elemento del carrusel siguiente. -->
+  <div (animationend)="onNextMediaAnimationEnd()" class="carousel-item" *ngIf="getNextMedia()" id="car-next">
+    <div class="carousel-img-container">
+      <img [src]="'assets/images/' + getNextMedia()?.getBackground()" alt="carousel-img">
+      <span class="carousel-curtain"></span>
+    </div>
+    <div class="carousel-info-container">
+      <h2 class="carousel-title">{{getNextMedia()?.getTitle()}}</h2>
+      <app-button [onClick]="onCarouselItemClick" [placeholder]="{ default: 'Ver' }" />
+    </div>
+  </div>
+</div>

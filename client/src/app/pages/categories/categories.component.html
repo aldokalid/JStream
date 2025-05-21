@@ -1,0 +1,34 @@
+<div class="categories">
+  <div (animationend)="onCategoriesContainerAnimationEnd()"
+    [class]="'categories-container' + getCategoriesContainerStatusClass()">
+    <div class="top-bar">
+      <h1>CATEGORÍAS</h1>
+      <app-button [onClick]="onCategoriesBtnClick" id="categories-btn" [placeholder]="{ default: 'Categorías' }"
+        [width]="{ value: '100%', as: 'width' }" />
+      <hr>
+      <br>
+    </div>
+    <div (click)="onCategoriesContainerClick($event)" class="categories-buttons-container" id="categories-container"
+      #categoriesButtonsContainer>
+      <app-button [width]="{ value: '100%', as: 'width' }" id="all-btn" [placeholder]="{ default: 'Todas' }" />
+      <app-button [width]="{ value: '100%', as: 'width' }" id="action-btn" [placeholder]="{ default: 'Acción' }" />
+      <app-button [width]="{ value: '100%', as: 'width' }" id="sci_fi-btn"
+        [placeholder]="{ default: 'Ciencia ficción' }" />
+      <app-button [width]="{ value: '100%', as: 'width' }" id="comedy-btn" [placeholder]="{ default: 'Comedia' }" />
+      <app-button [width]="{ value: '100%', as: 'width' }" id="crime-btn" [placeholder]="{ default: 'Crimen' }" />
+      <app-button [width]="{ value: '100%', as: 'width' }" id="drama-btn" [placeholder]="{ default: 'Drama' }" />
+    </div>
+  </div>
+  <div class="options-container">
+    <h3 id="position-title">{{getCurrentCategory()}}</h3>
+    <div id="options" *ngIf="getCatalogue() === undefined">
+      <app-media-item [cover]="''" [id]="null" [title]="''" />
+      <app-media-item [cover]="''" [id]="null" [title]="''" />
+      <app-media-item [cover]="''" [id]="null" [title]="''" />
+    </div>
+    <div (click)="onOptionsContainerClick($event)" id="options" *ngIf="(getCatalogue()?.length ?? 0) > 0" #optionsContainer>
+      <app-media-item *ngFor="let media of getCatalogue()" [cover]="media.getCover()" [id]="media.getId()"
+        [title]="media.getTitle()" />
+    </div>
+  </div>
+</div>

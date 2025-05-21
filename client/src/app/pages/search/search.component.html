@@ -1,0 +1,20 @@
+<div id="search">
+  <div class="search-bar-container">
+    <app-inputbar [disabled]="isWaitingResponse()" [onChange]="onSearchInputbarChange"
+      [placeholder]="{ default: 'Busca películas y series' }" />
+    <app-button [disabled]="isWaitingResponse()" [onClick]="onSearchBtnClick" icon="../../../assets/icons/search.webp" />
+  </div>
+  <div (click)="onSearchItemsContainerClick($event)" class="search-items-container" #itemsContainer>
+    <!-- Sin búsqueda. -->
+    <div class="empty-search" *ngIf="!getMediaItems()">
+      <h2>Haz una búsqueda en la barra de búsqueda para mostrar el catálogo.</h2>
+    </div>
+    <!-- Búsqueda vacía. -->
+    <div class="no-results" *ngIf="getMediaItems() && getMediaItems()?.length === 0">
+      <h2>¡Uy! no tenemos coincidencias es nuestro catálogo.</h2>
+    </div>
+    <!-- Búsqueda con coincidencias. -->
+    <app-media-item *ngFor="let media of getMediaItems()" [cover]="media.getCover()" [id]="media.getId()"
+      [title]="media.getTitle()" />
+  </div>
+</div>

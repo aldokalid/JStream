@@ -1,47 +1,61 @@
 # See https://docs.github.com/get-started/getting-started-with-git/ignoring-files for more about ignoring files.
 
+# *** CLIENT ***
+
 # Compiled output
-/dist
-/tmp
-/out-tsc
-/bazel-out
+/client/dist
+/client/tmp
+/client/out-tsc
+/client/bazel-out
 
 # Node
-/node_modules
-npm-debug.log
-yarn-error.log
+/client/node_modules
+/client/npm-debug.log
+/client/yarn-error.log
 
 # IDEs and editors
-.idea/
-.project
-.classpath
-.c9/
-*.launch
-.settings/
-*.sublime-workspace
+/client/.idea/
+/client/.project
+/client/.classpath
+/client/.c9/
+/client/*.launch
+/client/.settings/
+/client/*.sublime-workspace
 
 # Visual Studio Code
-.vscode/*
-!.vscode/settings.json
-!.vscode/tasks.json
-!.vscode/launch.json
-!.vscode/extensions.json
-.history/*
+/client/.vscode/*
+!/client/.vscode/settings.json
+!/client/.vscode/tasks.json
+!/client/.vscode/launch.json
+!/client/.vscode/extensions.json
+/client/.history/*
 
 # Miscellaneous
-/.angular/cache
-.sass-cache/
-/connect.lock
-# /coverage
-/libpeerconnection.log
-testem.log
-/typings
+/client/.angular/cache
+/client/.sass-cache/
+/client/connect.lock
+# /client/coverage # Ocultado por el desarrollador.
+/client/libpeerconnection.log
+/client/testem.log
+/client/typings
 
 # System files
-.DS_Store
-Thumbs.db
+/client/.DS_Store
+/client/Thumbs.db
 
-# Mein.
-/src/app/environments/*
-!/src/app/environments/.gitkeep
+# *** CLIENT: MINE ***
+
+/client/src/app/core/guards/
+/client/src/app/environments/
+!/client/src/app/environments/.gitkeep
+
+# *** SERVER ***
+
+/server/bin
+/server/obj
+/server/environments/*
+!/server/environments/.gitkeep
+
+# *** ALL ***
 to-do.txt
+jstream.sln
