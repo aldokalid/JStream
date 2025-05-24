@@ -49,7 +49,10 @@ Ejecuta SSMS. Si tienes problemas para abrirlo, considera marcar la casilla _Tru
 
 Del lado izquierdo, tendrás el _Object Explorer_. En el árbol, ubícate en _Databases_, haz clic derecho sobre él y, luego, clic izquierdo en _Restore Database..._. En la sección _Source_, selecciona _Device:_ y haz clic en el botón _..._ Eso abrirá otra ventana, deberás hacer clic en el botón _Add_ y seleccionar el archivo de la base de datos ubicado en este repertorio: _server/databases/**jstream.bak**_. Haz clic en _Ok_ y la base de datos estará restaurada.
 
-La autenticación en la API se hace por SQL, por lo que necesitarás un **LOGIN**. Ejecuta el siguiente bloque en un query haciento clic en la opción _New Query_ de la barra superior:
+La autenticación en la API se hace por SQL, por lo que necesitarás habilitar la autenticación SQL de tu servidor y un **LOGIN**.
+Para habilitar la autenticación SQL, Diríjete al _Object Explorer_ de SSMS, haz clic derecho en tu servidor (la parte más alta del árbol) y, luego, haz clic en _Properties_. Se abrirá una nueva ventana. De la sección _Select a page_, haz clic en la opción _Securitiy_ y, en la sección _Server authentication_ (la primera), selecciona _SQL Server and Windows Authenticacion Mode_. Finalmente, haz clic en el botón _OK_, cierra SSMS y reinicia el servicio (para reiniciarlo, abre el menú de windows con el botón de Windows del teclado, busca el programa _Servicios_ y ejecútalo como administrador, busca el servicio _SQL Server (MSSQLSERVER)_, haz clic derecho sobre el y, finalmente, haz clic en _Reiniciar_).
+
+Para crear el **LOGIN**, ejecuta el siguiente bloque en un query (en SSMS) haciento clic en la opción _New Query_ de la barra superior:
 ```SQL
 CREATE LOGIN tuusuario
 WITH PASSWORD = 'tucontraseña'
