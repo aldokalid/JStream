@@ -24,7 +24,10 @@ describe('NotFoundComponent', () => {
   it('should invoke click handler before clicking Go To Home button', () => {
     spyOn(component, 'onGoToHomeBtnClick').and.callThrough();
 
-    (fixture.debugElement.query(By.css('#go-home-btn')).nativeElement as HTMLElement).click();
+    const btnDebugElement = fixture.debugElement.query(By.css('#go-home-btn'));
+    const btn = (btnDebugElement.nativeElement as Element).querySelector('button');
+
+    btn?.click();
 
     expect(component.onGoToHomeBtnClick).toHaveBeenCalled();
   });

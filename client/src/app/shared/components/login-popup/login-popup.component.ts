@@ -1,9 +1,10 @@
-import { Component, ElementRef, Input, NgZone, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, OnDestroy, ViewChild } from '@angular/core';
 import { InputbarComponent } from "../generic/input-bar/inputbar.component";
 import { ButtonComponent } from "../generic/button/button.component";
 import { Subject, Subscription } from 'rxjs';
 import InputbarFilterObject from '../generic/input-bar/models/inputbarfilterobject.interface';
 import { AuthService } from '@core/services/auth.service';
+import { User } from 'src/app/models/user.model';
 
 @Component({
   selector: 'app-login-popup',
@@ -37,7 +38,7 @@ export class LoginPopupComponent implements OnDestroy {
   private login$?: Subscription;
   private buttonSubject$?: Subject<any>;
 
-  constructor(private ngZone: NgZone, private auth: AuthService) { }
+  constructor(private auth: AuthService) { }
 
   // *** ANGULAR ***
   ngOnDestroy(): void {
@@ -46,7 +47,7 @@ export class LoginPopupComponent implements OnDestroy {
 
   // *** EVENTOS ***
   /** Activado cuando se hace clic en el botón Cerrar. */
-  onCloseBtnClick = () => {
+  onCloseBtnClick() {
     this.statusClass = ' hide';
   }
 
@@ -79,14 +80,8 @@ export class LoginPopupComponent implements OnDestroy {
     this.buttonSubject$ = e$;
     this.compoWait = true;
 
-    // @deprecated revisar porqué esto funciona fuera de ngOnInit
     this.login$ = this.auth.isLogged$.subscribe({
-      next: user => {
-        if (user) {
-          this.statusClass = ' hide';
-          alert(`Bienvenido, ${user?.getUsername()}`);
-        }
-      },
+      next: user => this.resolveLogIn(user),
       error: err => {
         console.error(err);
         this.compoWait = false;
@@ -94,13 +89,21 @@ export class LoginPopupComponent implements OnDestroy {
       }
     });
 
-    this.auth.login(this.username, this.password);
+    this.auth.signIn(this.username, this.password);
   }
 
   // *** GENÉRICOS ***
   /** Verifica si el componente está en estado de espera. */
   isWaiting() {
     return this.compoWait;
+  }
+
+  /** Función que se activa cuando el LogIn se acepta. */
+  resolveLogIn(user: User | null) {
+    if (user) {
+      this.statusClass = ' hide';
+      alert(`Bienvenido, ${user?.getUsername()}`);
+    }
   }
 
   // *** GET / SET ***

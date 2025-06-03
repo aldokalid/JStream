@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SessionPopupComponent } from './session-popup.component';
 import { By } from '@angular/platform-browser';
 import { BrowserService } from '../../services/browser.service';
+import { setupHttpClientTestBed } from 'src/test-setup';
 
 describe('SessionPopupComponent', () => {
   let component: SessionPopupComponent;
@@ -11,6 +12,8 @@ describe('SessionPopupComponent', () => {
   auxHomeComponent.className = 'home';
 
   beforeEach(async () => {
+    setupHttpClientTestBed();
+
     // Crea un objeto espía, que reemplaza a la función BrowserService.reload para evitar
     // que la página sea recargada y no interrumpa la prueba.
     const browserSpyObj = jasmine.createSpyObj('BrowserService', ['reload']);

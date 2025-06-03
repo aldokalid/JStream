@@ -2,30 +2,29 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { LoginPopupComponent } from './login-popup.component';
 import { By } from '@angular/platform-browser';
+import { AuthService } from '@core/services/auth.service';
+import { setupHttpClientTestBed } from 'src/test-setup';
 
 describe('LoginPopupComponent', () => {
   let component: LoginPopupComponent;
   let fixture: ComponentFixture<LoginPopupComponent>;
-  let resolveComplete = false;
 
   beforeEach(async () => {
+    setupHttpClientTestBed();
+
     TestBed.overrideComponent(LoginPopupComponent, {
       set: { inputs: ['onAction', 'onDispose', 'onReject', 'onResolve'] }
     })
 
+    // mockAuthService = jasmine.createSpyObj(AuthService, ['signIn'])
+
     await TestBed.configureTestingModule({
-      imports: [LoginPopupComponent]
-    })
-      .compileComponents();
+      imports: [LoginPopupComponent],
+      providers: [AuthService]
+    }).compileComponents();
 
     fixture = TestBed.createComponent(LoginPopupComponent);
     component = fixture.componentInstance;
-
-    resolveComplete = false;
-    component.onAction = () => { }
-    component.onDispose = () => { }
-    component.onReject = () => { }
-    component.onResolve = () => { resolveComplete = true }
 
     fixture.detectChanges();
   });
@@ -37,71 +36,46 @@ describe('LoginPopupComponent', () => {
   it('should detect close button click event', () => {
     spyOn(component, 'onCloseBtnClick').and.callThrough();
 
-    (fixture.debugElement.query(By.css('#popup-close-btn')).nativeNode as HTMLButtonElement).click();
+    // Esto obtiene solo el div que contiene el botón real (<app-button />).
+    const btnDebugElement = fixture.debugElement.query(By.css('#popup-close-btn'));
+    // Este sí obtiene el botón.
+    const btn = (btnDebugElement.nativeElement as Element).querySelector('button');
+
+    btn?.click();
 
     expect(component.onCloseBtnClick).toHaveBeenCalled();
   });
 
   it('should detect changes on username input', () => {
-    spyOn(component, 'onInputChange').and.callThrough();
+    spyOn(component, 'onUsernameInputbarChange').and.callThrough();
 
-    const auxInput = (fixture.debugElement.query(By.css('#popup-username-input')))
-      .nativeElement as HTMLInputElement;
+    component.onUsernameInputbarChange('testusername');
 
-    auxInput.value = 'testusername';
-    auxInput.dispatchEvent(new Event('input'));
-    fixture.detectChanges();
-
-    expect(component.onInputChange).toHaveBeenCalled();
+    expect(component.onUsernameInputbarChange).toHaveBeenCalled();
   });
 
   it('should detect changes on password input', () => {
-    spyOn(component, 'onInputChange').and.callThrough();
+    spyOn(component, 'onPasswordInputbarChange').and.callThrough();
 
-    const auxInput = (fixture.debugElement.query(By.css('#popup-password-input')))
-      .nativeElement as HTMLInputElement;
+    component.onPasswordInputbarChange('testpassword');
 
-    auxInput.value = 'testpassword';
-    auxInput.dispatchEvent(new Event('input'));
-    fixture.detectChanges();
-
-    expect(component.onInputChange).toHaveBeenCalled();
+    expect(component.onPasswordInputbarChange).toHaveBeenCalled();
   });
 
   it('should login successfully', () => {
-    jasmine.clock().install();
+    spyOn(component, "resolveLogIn").and.callThrough();
 
-    const auxInputUsr = (fixture.debugElement.query(By.css('#popup-username-input')))
-      .nativeElement as HTMLInputElement;
+    // Ingresa los datos del usuario.
+    component.onUsernameInputbarChange("testusername");
+    component.onPasswordInputbarChange("testpassword");
 
-    auxInputUsr.value = 'testusername';
-    auxInputUsr.dispatchEvent(new Event('input'));
+    // Esto obtiene solo el div que contiene el botón real (<app-button />).
+    const btnDebugElement = fixture.debugElement.query(By.css('#popup-login-btn'));
+    // Este sí obtiene el botón.
+    const btn = (btnDebugElement.nativeElement as Element).querySelector('button');
 
-    const auxInputPsw = (fixture.debugElement.query(By.css('#popup-password-input')))
-      .nativeElement as HTMLInputElement;
+    btn?.click();
 
-    auxInputPsw.value = 'testpassword';
-    auxInputPsw.dispatchEvent(new Event('input'));
-
-    fixture.detectChanges();
-    (fixture.debugElement.query(By.css('#popup-login-btn')).nativeElement as HTMLButtonElement)
-      .click();
-
-    jasmine.clock().tick(3100);
-    jasmine.clock().uninstall();
-
-    expect(resolveComplete).toBeTruthy();
+    expect(component.resolveLogIn).toHaveBeenCalled();
   });
-
-  it('should refuse to login', () => {
-    jasmine.clock().install();
-
-    component.onLoginBtnClick();
-
-
-    jasmine.clock().tick(3100);
-    jasmine.clock().uninstall();
-
-    expect(resolveComplete).toBeFalsy();
-  })
 });

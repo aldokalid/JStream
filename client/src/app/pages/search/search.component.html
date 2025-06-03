@@ -2,7 +2,8 @@
   <div class="search-bar-container">
     <app-inputbar [disabled]="isWaitingResponse()" [onChange]="onSearchInputbarChange"
       [placeholder]="{ default: 'Busca películas y series' }" />
-    <app-button [disabled]="isWaitingResponse()" [onClick]="onSearchBtnClick" icon="../../../assets/icons/search.webp" />
+    <app-button id="new-search-btn" [disabled]="isWaitingResponse()" (onClick)="onSearchBtnClick()"
+      icon="../../../assets/icons/search.webp" />
   </div>
   <div (click)="onSearchItemsContainerClick($event)" class="search-items-container" #itemsContainer>
     <!-- Sin búsqueda. -->

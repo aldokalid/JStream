@@ -1,3 +1,4 @@
+import DBMedia from "./dbmedia.interface";
 import Generic from "./generic.model";
 
 class Media extends Generic {
@@ -15,6 +16,21 @@ class Media extends Generic {
     super(id);
   }
 
+  /** Convierte un objeto con interfaz DBMedia a un objeto Media. */
+  static parseDBMedia(dbMedia: DBMedia): Media {
+    return new Media(
+      dbMedia.idmedia,
+      dbMedia.background_img,
+      dbMedia.cover_img,
+      dbMedia.description,
+      Media.parseGenreToString(dbMedia.genre),
+      dbMedia.is_tendency,
+      dbMedia.release,
+      dbMedia.title,
+      Media.parseType(dbMedia.type)
+    );
+  }
+
   /** Convierte el identificador del género en número a cadena. */
   static parseGenreToString(genre: number) {
     switch (genre) {
@@ -26,7 +42,6 @@ class Media extends Generic {
       default: return 'unknown';
     }
   }
-
 
   /** Convierte el identificador del género en cadena a número. */
   static parseGenreToNumber(genre: string) {

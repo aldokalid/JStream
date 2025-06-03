@@ -35,7 +35,7 @@ export class NavbarComponent {
   }
 
   /** Controlador de clics para el botón de búsqueda. */
-  onSearchBtnClick = () => {
+  onSearchBtnClick() {
     // Omite la navegación si ya se está en la ubicación 'buscar'.
     if (!/^\/buscar/.test(this.router.url))
       this.router.navigate(['/', 'buscar']);

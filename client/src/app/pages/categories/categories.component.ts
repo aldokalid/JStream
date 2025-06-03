@@ -35,7 +35,7 @@ export class CategoriesComponent implements OnDestroy, OnInit {
   ngOnInit(): void {
     this.genres$?.closed === false && this.genres$.unsubscribe();
 
-    this.genres$ = this.api.findMediaByGenre(Media.parseGenreToNumber('all')).subscribe({
+    this.genres$ = this.api.findMediaByGenre$(Media.parseGenreToNumber('all')).subscribe({
       next: data => this.medias = data,
       error: err => console.error(err)
     });
@@ -43,7 +43,7 @@ export class CategoriesComponent implements OnDestroy, OnInit {
 
   // *** EVENTOS ***
   /** Oculta o muestra el menú de categorías en dispositivos compatibles. */
-  onCategoriesBtnClick = () => {
+  onCategoriesBtnClick() {
     if (this.categoriesContainerStatusClass === ' hide')
       return;
 
@@ -75,7 +75,7 @@ export class CategoriesComponent implements OnDestroy, OnInit {
 
     this.genres$?.closed === false && this.genres$.unsubscribe();
 
-    this.genres$ = this.api.findMediaByGenre(Media.parseGenreToNumber(genre)).subscribe({
+    this.genres$ = this.api.findMediaByGenre$(Media.parseGenreToNumber(genre)).subscribe({
       next: data => {
         this.medias = data;
 

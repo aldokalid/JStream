@@ -56,7 +56,7 @@ export class SessionPopupComponent implements OnDestroy, OnInit {
 
   /** Controlador de clics para el botón Salir.
    * @deprecated Simulado. En el futuro, este metodo debe cerrar la sesión apropiadamente. */
-  onLogoutBtnClick = () => {
+  onLogoutBtnClick() {
     this.auth.isLogged$.subscribe({
       next: () => {
         if (this.browserService.reloadPage)
@@ -64,7 +64,7 @@ export class SessionPopupComponent implements OnDestroy, OnInit {
       }
     })
 
-    this.auth.logout();
+    this.auth.signOut();
   }
 
   // *** GET / SET ***

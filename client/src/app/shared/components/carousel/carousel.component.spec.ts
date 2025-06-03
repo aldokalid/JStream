@@ -1,25 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CarouselComponent } from './carousel.component';
-import * as data from '../../../data/movies.json';
+import * as data from '../../../data/movies.spec.json';
 import Media from 'src/app/models/media.model';
 import { By } from '@angular/platform-browser';
+import { getTestMedia } from 'src/test-setup';
 
 describe('CarouselComponent', () => {
   let component: CarouselComponent;
   let fixture: ComponentFixture<CarouselComponent>;
-  // @deprecated evitar usar any.
-  const dataRef: any[] = (data as any).default as any[];
-  const mediasRef = dataRef.map(dR => new Media(
-    dR.id,
-    dR.background,
-    dR.cover,
-    dR.description,
-    dR.genre,
-    dR.isTendency,
-    dR.release,
-    dR.title,
-    dR.type
-  ));
+  let medias!: Media[];
+
+  // Obtiene el catálogo.
+  getTestMedia().subscribe({ next: data => medias = data });
 
   afterEach(() => component.medias = []);
 
@@ -30,7 +22,7 @@ describe('CarouselComponent', () => {
 
     fixture = TestBed.createComponent(CarouselComponent);
     component = fixture.componentInstance;
-    component.medias = mediasRef;
+    component.medias = medias;
     fixture.detectChanges();
   });
 
@@ -51,7 +43,7 @@ describe('CarouselComponent', () => {
     jasmine.clock().install();
     spyOn(component, 'onNextMediaAnimationEnd').and.callThrough();
 
-    component.medias = [...mediasRef];
+    component.medias = [...medias];
 
     // Crea el evento para inyectarlo a la siguiente tarjeta.
     const event = new Event('animationend', { bubbles: true, cancelable: true });

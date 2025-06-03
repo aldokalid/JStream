@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">37.5% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>8/8</span>
+                <span class='fraction'>3/8</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">33.33% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>3/3</span>
+                <span class='fraction'>1/3</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">28.57% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>7/7</span>
+                <span class='fraction'>2/7</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">37.5% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>8/8</span>
+                <span class='fraction'>3/8</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line high'></div>
+    <div class='status-line low'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -135,40 +135,40 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">252x</span>
+<span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">164x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">41x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">84x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">41x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">82x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">41x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { NgIf, NgOptimizedImage } from '@angular/common';
@@ -189,18 +189,18 @@ export class MediaItemComponent {
   // *** GENÉRICOS ***
   /** Revisa si el componente está listo para renderizarse. */
   renderable() {
-    return Boolean(this._cover &amp;&amp; this._id &amp;&amp; this._title);
+    return Boolean(this._cover &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >this._id </span>&amp;&amp; <span class="branch-2 cbranch-no" title="branch not covered" >this._title)</span>;
   }
   // *** GET / SET ***
   /** Obtiene la carátula. */
-  getCover() {
-    return this._cover;
+<span class="fstat-no" title="function not covered" >  getCover(</span>) {
+<span class="cstat-no" title="statement not covered" >    return this._cover;</span>
   }
 &nbsp;
   /** Asgina una carátula */
   @Input({ required: true })
-  set cover(cover: string) {
-    this._cover = cover;
+  set <span class="fstat-no" title="function not covered" >cover(</span>cover: string) {
+<span class="cstat-no" title="statement not covered" >    this._cover = cover;</span>
   }
 &nbsp;
   /** Obtiene el identificador. */
@@ -210,19 +210,19 @@ export class MediaItemComponent {
 &nbsp;
   /** Asigna un identificador. */
   @Input({ required: true })
-  set id(id: number | null) {
-    this._id = id;
+  set <span class="fstat-no" title="function not covered" >id(</span>id: number | null) {
+<span class="cstat-no" title="statement not covered" >    this._id = id;</span>
   }
 &nbsp;
   /** Obtiene el título. */
-  getTitle() {
-    return this._title;
+<span class="fstat-no" title="function not covered" >  getTitle(</span>) {
+<span class="cstat-no" title="statement not covered" >    return this._title;</span>
   }
 &nbsp;
   /** Asgina un título. */
   @Input({ required: true })
-  set title(title: string) {
-    this._title = title;
+  set <span class="fstat-no" title="function not covered" >title(</span>title: string) {
+<span class="cstat-no" title="statement not covered" >    this._title = title;</span>
   }
 }
 &nbsp;</pre></td></tr></table></pre>
@@ -232,7 +232,7 @@ export class MediaItemComponent {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-05T00:59:14.494Z
+                at 2025-06-02T21:47:44.008Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>

@@ -3,7 +3,8 @@
   <div class="popup">
     <div class="popup-top-bar">
       <p>Iniciar sesión</p>
-      <app-button [disabled]="isWaiting()" [onClick]="onCloseBtnClick" [placeholder]="{ default: 'X' }" />
+      <app-button id="popup-close-btn" [disabled]="isWaiting()" (onClick)="onCloseBtnClick()"
+        [placeholder]="{ default: 'X' }" />
     </div>
     <div class="popup-content">
       <app-inputbar [onChange]="onUsernameInputbarChange" [placeholder]="{ default: 'Usuario' }" [maxLength]="15"

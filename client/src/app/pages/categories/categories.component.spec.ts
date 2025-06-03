@@ -2,15 +2,36 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 // import { HttpTestingController } from '@angular/common/http/testing';
 import { CategoriesComponent } from './categories.component';
 import { By } from '@angular/platform-browser';
+import { getTestMedia, setupHttpClientTestBed } from 'src/test-setup';
+import { APIService } from '@core/services/api.service';
+import Media from 'src/app/models/media.model';
 
 describe('CategoriesComponent', () => {
   let component: CategoriesComponent;
   let fixture: ComponentFixture<CategoriesComponent>;
+  let mockAPIService: jasmine.SpyObj<APIService>;
 
   beforeEach(async () => {
+    setupHttpClientTestBed();
+
+    mockAPIService = jasmine.createSpyObj(APIService, ['findMediaByGenre$'])
+
     await TestBed.configureTestingModule({
       imports: [CategoriesComponent],
+      providers: [
+        { provide: APIService, useValue: mockAPIService }
+      ]
     }).compileComponents();
+
+    mockAPIService
+      .findMediaByGenre$
+      .and
+      .callFake((genre: number) => {
+        if (genre === 0)
+          return getTestMedia();
+
+        return getTestMedia(mS => mS.filter(m => m.getGenre() === Media.parseGenreToString(genre)))
+      })
 
     fixture = TestBed.createComponent(CategoriesComponent);
     component = fixture.componentInstance;
@@ -28,8 +49,12 @@ describe('CategoriesComponent', () => {
   it('should push show categories button', () => {
     spyOn(component, 'onCategoriesBtnClick').and.callThrough();
 
-    const auxBtn: HTMLButtonElement = fixture.debugElement.query(By.css('#categories-btn')).nativeElement;
-    auxBtn.click();
+    // Esto obtiene solo el div que contiene el botón real (<app-button />).
+    const btnDebugElement = fixture.debugElement.query(By.css('#categories-btn'));
+    // Este sí obtiene el botón.
+    const btn = (btnDebugElement.nativeElement as Element).querySelector('button');
+
+    btn?.click();
 
     expect(component.onCategoriesBtnClick).toHaveBeenCalled()
   });

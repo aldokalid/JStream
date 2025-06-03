@@ -1,0 +1,57 @@
+[
+  {
+    "background_img": "beastars_b.webp",
+    "cover_img": "beastars_c.webp",
+    "description": "La historia se desarrolla en un mundo de animales antropomórficos con una división cultural entre carnívoros y herbívoros. Legoshi, un gran lobo gris, es un estudiante tímido y tranquilo de la Academia Cherryton, donde vive con varios estudiantes carnívoros, incluido su amigo labrador, Jack. Como miembro del club de teatro de la escuela, Legoshi trabaja como escenógrafo y apoya a los actores del club, encabezados por el alumno estrella Louis, un ciervo rojo.",
+    "genre": 4,
+    "idmedia": 1,
+    "is_tendency": true,
+    "release": 2019,
+    "title": "BEASTARS",
+    "type": 2
+  },
+  {
+    "background_img": "rubias_b.webp",
+    "cover_img": "rubias_c.webp",
+    "description": "Dos torpes agentes del FBI se hacen pasar por dos chicas de la alta sociedad para investigar una serie de secuestros. No obstante, mientras preparan su plan, descubren que irrumpir en la clase privilegiada es mucho más duro de lo que creían.",
+    "genre": 2,
+    "idmedia": 2,
+    "is_tendency": false,
+    "release": 2004,
+    "title": "¿... Y dónde están las rubias?",
+    "type": 1
+  },
+  {
+    "background_img": "halo_b.webp",
+    "cover_img": "halo_c.webp",
+    "description": "Master Chief, un supersoldado mejorado cibernéticamente, defiende a la humanidad del alienígena Covenant en el siglo 26.",
+    "genre": 5,
+    "idmedia": 3,
+    "is_tendency": true,
+    "release": 2022,
+    "title": "HALO",
+    "type": 2
+  },
+  {
+    "background_img": "tomb_raider_b.webp",
+    "cover_img": "tomb_raider_c.webp",
+    "description": "Lara Croft debe interrumpir su viaje y regresar a casa cuando un peligroso y poderoso artefacto chino es robado de la Mansión Croft. Deberá enfrentarse a sí misma y decidir qué clase de héroe quiere convertirse.",
+    "genre": 1,
+    "idmedia": 4,
+    "is_tendency": true,
+    "release": 2024,
+    "title": "Tomb Raider: La Leyenda de Lara Croft",
+    "type": 2
+  },
+  {
+    "background_img": "uve_b.webp",
+    "cover_img": "uve_c.webp",
+    "description": "La serie sigue los pasos de los detectives de la Unidad de Víctimas Especiales del Departamento de Policía de Nueva York (NYPD), con sede en la 16ª comisaría, mientras investigan los delitos de índole sexual.",
+    "genre": 3,
+    "idmedia": 5,
+    "is_tendency": false,
+    "release": 2024,
+    "title": "La Ley y El Orden: Unidad de Víctimas Especiales",
+    "type": 2
+  }
+]

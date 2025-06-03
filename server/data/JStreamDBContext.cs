@@ -3,14 +3,19 @@ using apijstream.models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace apijstream.Data;
+namespace apijstream.data;
 
-public class JStreamDBContext : DbContext
+/// <summary>
+/// Clase contexto para la comunicación con la base de datos.
+/// </summary>
+/// <param name="options">Opciones DbContext</param>
+public class JStreamDbContext(DbContextOptions<JStreamDbContext> options) : DbContext(options)
 {
-  public JStreamDBContext(DbContextOptions<JStreamDBContext> options) : base(options) { }
-
+  // Esta definición es un getter.
   public DbSet<User> Users => Set<User>();
   public DbSet<Media> Medias => Set<Media>();
+
+  // Se ejecuta cuando el modelo se crea.
   protected override void OnModelCreating(ModelBuilder modelBuilder)
   {
     // Obtiene los modelos.
@@ -26,8 +31,10 @@ public class JStreamDBContext : DbContext
     userEntity.HasKey(uE => uE.iduser);
   }
 
+  // Se ejecuta cuando el modelo es configurado.
   protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
   {
+    // Esta línea es la conexión con la base de datos. Ö @deprecated Usar ConnectionStrings
     optionsBuilder.UseSqlServer(JStreamEnvironment.DB_STRING);
   }
 }

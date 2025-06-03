@@ -1,5 +1,5 @@
 <div (animationend)="onComponentAnimationEnd()" id="session-popup" [class]="getStatusClass()" #sessionPopup>
   <h2 id="welcome-message">Hola, {{getCurrSession()}}.</h2>
   <hr>
-  <app-button [onClick]="onLogoutBtnClick" [placeholder]="{ default: 'Salir' }" />
+  <app-button (onClick)="onLogoutBtnClick()" [placeholder]="{ default: 'Salir' }" />
 </div>

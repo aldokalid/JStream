@@ -22,7 +22,7 @@ export class MediaComponent implements OnDestroy, OnInit {
 
   // *** ANGULAR ***
   ngOnDestroy(): void {
-      this.media$?.closed === false && this.media$.unsubscribe();
+    this.media$?.closed === false && this.media$.unsubscribe();
   }
 
   ngOnInit(): void {

@@ -20,15 +20,15 @@ export class TendenciesComponent implements OnDestroy, OnInit {
   private tendencyCatalog: Media[] = [];
   private tendencies$!: Subscription;
 
-  constructor(private router: Router, private daoCatalogue: APIService) { }
+  constructor(private router: Router, private api: APIService) { }
 
   // *** ANGULAR ***
   ngOnDestroy(): void {
-    this.tendencies$.unsubscribe();
+    this.tendencies$?.unsubscribe();
   }
 
   ngOnInit(): void {
-    this.tendencies$ = this.daoCatalogue.getMedias$().subscribe({
+    this.tendencies$ = this.api.getMedias$().subscribe({
       next: data => {
         this.tendencyCatalog = data.filter(d => d.getIsTendency());
       },

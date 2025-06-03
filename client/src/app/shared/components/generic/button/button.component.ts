@@ -3,6 +3,7 @@ import { AfterViewInit, Component, ElementRef, Input, OnDestroy, Output, ViewChi
 import ButtonPlaceholderObject from './models/buttonplaceholderobject.interface';
 import ButtonCustomWidthObject from './models/buttoncustomwidthobject.iterface';
 import { Subject } from 'rxjs';
+import { EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-button',
@@ -22,12 +23,11 @@ export class ButtonComponent implements OnDestroy, AfterViewInit {
    * en la web. */
   @Input() icon?: string;
   /** Una función que devuelve un Subject y se disparará cuando se haga clic sobre el componente.
-   * El componente entrará en estado de espera hasta que el subject sea completado. Se ignorará
-   * si 'onClick' está definida. */
+   * El componente entrará en estado de espera hasta que el subject sea completado. */
   @Output() onAction = new Subject<Subject<any>>();
-  /** Una función que se disparará cuando se haga clic sobre el componente. 'onAction' será
-   * ignorado si está definida y 'onClick' también está definida. */
-  @Input() onClick?: () => void
+  /** Una función que se disparará cuando se haga clic sobre el componente. Si 'onAction' está definido,
+   * esta función será ignorada. */
+  @Output() onClick = new EventEmitter<void>();
   @Input() onReject?: (err: Error | string) => void
   /** Una función que se disparará cuando 'onAction' se resuelva. Obtendrá cual sea el resultado
    * que 'onAction' haya devuelto. No se usará esta función si 'onClick' está definida. */
@@ -61,9 +61,7 @@ export class ButtonComponent implements OnDestroy, AfterViewInit {
       return;
     }
 
-    if (this.onClick) { // Evento onClick.
-      this.onClick();
-    } else if (this.onAction.observed) { // Verifica si onAction está siendo observado.
+    if (this.onAction.observed) { // Verifica si onAction está siendo observado.
       this.waiting = true; // El componente se pone en espera.
 
       // Cierra la suscripción si es que hay una abierta.
@@ -87,6 +85,8 @@ export class ButtonComponent implements OnDestroy, AfterViewInit {
           this.onReject?.(err);
         },
       });
+    } else {
+      this.onClick.emit();
     }
   }
 

@@ -2,11 +2,11 @@ import Media from "./media.model";
 
 describe('Media', () => {
   it('should create an instance', () => {
-    expect(new Media(0, '', '', '', '', true, 0, '', 'serie')).toBeTruthy();
+    expect(new Media(0, '', '', '', '', true, new Date(), '', 'serie')).toBeTruthy();
   });
 
   it('should assign and get description through setter and getter', () => {
-    const auxMedia = new Media(0, '', '', '', '', true, 0, '', 'serie');
+    const auxMedia = new Media(0, '', '', '', '', true, new Date, '', 'serie');
 
     auxMedia.setBackground('test_background.png');
 
@@ -14,7 +14,7 @@ describe('Media', () => {
   });
 
   it('should assign and get cover through setter and getter', () => {
-    const auxMedia = new Media(0, '', '', '', '', true, 0, '', 'serie');
+    const auxMedia = new Media(0, '', '', '', '', true, new Date(), '', 'serie');
 
     auxMedia.setCover('test_cover.png');
 
@@ -22,7 +22,7 @@ describe('Media', () => {
   });
 
   it('should assign and get description through setter and getter', () => {
-    const auxMedia = new Media(0, '', '', '', '', true, 0, '', 'serie');
+    const auxMedia = new Media(0, '', '', '', '', true, new Date(), '', 'serie');
 
     auxMedia.setDescription('test_description');
 
@@ -30,7 +30,7 @@ describe('Media', () => {
   });
 
   it('should assign and get genre through setter and getter', () => {
-    const auxMedia = new Media(0, '', '', '', '', true, 0, '', 'serie');
+    const auxMedia = new Media(0, '', '', '', '', true, new Date(), '', 'serie');
 
     auxMedia.setGenre('comedy');
 
@@ -38,7 +38,7 @@ describe('Media', () => {
   });
 
   it('should assign and get isTendency through setter and getter', () => {
-    const auxMedia = new Media(0, '', '', '', '', true, 0, '', 'serie');
+    const auxMedia = new Media(0, '', '', '', '', true, new Date(), '', 'serie');
 
     auxMedia.setIsTendency(false);
 
@@ -46,15 +46,15 @@ describe('Media', () => {
   });
 
   it('should assign and get release date through setter and getter', () => {
-    const auxMedia = new Media(0, '', '', '', '', true, 0, '', 'serie');
+    const auxMedia = new Media(0, '', '', '', '', true, new Date(), '', 'serie');
 
-    auxMedia.setRelease(2004);
+    auxMedia.setRelease(new Date(2004, 0));
 
-    expect(auxMedia.getRelease()).toBe(2004);
+    expect(auxMedia.getRelease().getFullYear()).toBe(2004);
   });
 
   it('should assign and get title through setter and getter', () => {
-    const auxMedia = new Media(0, '', '', '', '', true, 0, '', 'serie');
+    const auxMedia = new Media(0, '', '', '', '', true, new Date(), '', 'serie');
 
     auxMedia.setTitle('test_title');
 
@@ -62,7 +62,7 @@ describe('Media', () => {
   });
 
   it('should assign and get type through setter and getter', () => {
-    const auxMedia = new Media(0, '', '', '', '', true, 0, '', 'serie');
+    const auxMedia = new Media(0, '', '', '', '', true, new Date(), '', 'serie');
 
     auxMedia.setType('movie');
 

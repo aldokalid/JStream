@@ -45,7 +45,12 @@ describe('NavbarComponent', () => {
   it('should detect search button click', () => {
     spyOn(component, 'onSearchBtnClick').and.callThrough();
 
-    (fixture.debugElement.query(By.css('button')).nativeElement as HTMLElement).click();
+    // Esto obtiene solo el div que contiene el botón real (<app-button />).
+    const btnDebugElement = fixture.debugElement.query(By.css('#navbar-search-btn-click'));
+    // Este sí obtiene el botón.
+    const btn = (btnDebugElement.nativeElement as Element).querySelector('button');
+
+    btn?.click();
 
     expect(component.onSearchBtnClick).toHaveBeenCalled();
   });

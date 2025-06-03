@@ -19,49 +19,34 @@ export class APIService {
     const server: string = environment.SERVER_NAME;
     const port: string = environment.PORT;
 
-    return `${protocol}://${server}${port ? `:${port}` : ''}/`;
-  }
-
-  /** Convierte una respuesta DBMedia a Media. */
-  private parseDBMedia(dbMedia: DBMedia): Media {
-    return new Media(
-      dbMedia.idmedia,
-      dbMedia.background_img,
-      dbMedia.cover_img,
-      dbMedia.description,
-      Media.parseGenreToString(dbMedia.genre),
-      dbMedia.is_tendency,
-      dbMedia.release,
-      dbMedia.title,
-      Media.parseType(dbMedia.type)
-    );
+    return `${protocol}://${server}${port ? `:${port}` : ''}/api/medias/`;
   }
 
   /** Obtiene coincidencias, mediante el título, en el catálogo desde la API. */
   findMediaByTitle$(title: string): Observable<Media[]> {
-    return this.http.get<DBMedia[]>(this.getAPIUrl() + `find_medias_by_title/${title}`).pipe(
-      map(res => res.map(dbMedia => this.parseDBMedia(dbMedia)))
+    return this.http.get<DBMedia[]>(this.getAPIUrl() + `title/${title}`).pipe(
+      map(res => res.map(dbMedia => Media.parseDBMedia(dbMedia)))
     );
   }
 
   /** Obtiene coincidencias, mediante categoría, en el catálogo desde la API. */
-  findMediaByGenre(genre: number): Observable<Media[]> {
-    return this.http.get<DBMedia[]>(this.getAPIUrl() + `find_medias_by_genre/${genre}`).pipe(
-      map(res => res.map(dbMedia => this.parseDBMedia(dbMedia)))
+  findMediaByGenre$(genre: number): Observable<Media[]> {
+    return this.http.get<DBMedia[]>(this.getAPIUrl() + `genre/${genre}`).pipe(
+      map(res => res.map(dbMedia => Media.parseDBMedia(dbMedia)))
     );
   }
 
   /** Obtiene un objeto del catálogo desde la API. */
   getMedia$(id: number): Observable<Media> {
-    return this.http.get<DBMedia>(this.getAPIUrl() + `get_media/${id}`).pipe(
-      map(res => this.parseDBMedia(res))
+    return this.http.get<DBMedia>(this.getAPIUrl() + `id/${id}`).pipe(
+      map(res => Media.parseDBMedia(res))
     );
   }
 
   /** Obtiene todo el catálogo desde la API. */
   getMedias$(): Observable<Media[]> {
-    return this.http.get<DBMedia[]>(this.getAPIUrl() + 'get_medias').pipe(
-      map(res => res.map(dbMedia => this.parseDBMedia(dbMedia)))
+    return this.http.get<DBMedia[]>(this.getAPIUrl()).pipe(
+      map(res => res.map(dbMedia => Media.parseDBMedia(dbMedia)))
     );
   }
 }

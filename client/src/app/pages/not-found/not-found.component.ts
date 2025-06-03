@@ -13,7 +13,7 @@ export class NotFoundComponent {
   constructor(private router: Router) { }
 
   /** Controlador de clics para el botón 'Ir a inicio'. */
-  onGoToHomeBtnClick = () => {
+  onGoToHomeBtnClick() {
     this.router.navigate(['/'], { replaceUrl: true });
   }
 }

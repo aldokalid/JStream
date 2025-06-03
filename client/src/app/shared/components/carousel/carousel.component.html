@@ -7,7 +7,7 @@
     </div>
     <div class="carousel-info-container">
       <h2 class="carousel-title">{{getCurrentMedia()?.getTitle()}}</h2>
-      <app-button [onClick]="onCarouselItemClick" [placeholder]="{ default: 'Ver' }" />
+      <app-button (onClick)="onCarouselItemClick()" [placeholder]="{ default: 'Ver' }" />
     </div>
   </div>
   <!-- Elemento del carrusel siguiente. -->
@@ -18,7 +18,7 @@
     </div>
     <div class="carousel-info-container">
       <h2 class="carousel-title">{{getNextMedia()?.getTitle()}}</h2>
-      <app-button [onClick]="onCarouselItemClick" [placeholder]="{ default: 'Ver' }" />
+      <app-button (onClick)="onCarouselItemClick()" [placeholder]="{ default: 'Ver' }" />
     </div>
   </div>
 </div>

@@ -6,7 +6,7 @@
     <div class="message-container">
       <h1>¡Uy! Aquí no hay nada.</h1>
       <p>Puede que el contenido o ruta que estabas buscando ya no existe o jamás existió.</p>
-      <app-button [onClick]="onGoToHomeBtnClick" [placeholder]="{ default: 'Ir a inicio' }" id="go-home-btn" />
+      <app-button (onClick)="onGoToHomeBtnClick()" [placeholder]="{ default: 'Ir a inicio' }" id="go-home-btn" />
     </div>
   </div>
 </div>

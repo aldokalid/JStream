@@ -1,6 +1,6 @@
-@apijstream_HostAddress = http://localhost:5201
+@apijstream_HostAddress = http://localhost:5174
 
-GET {{apijstream_HostAddress}}/login/
+GET {{apijstream_HostAddress}}/weatherforecast/
 Accept: application/json
 
 ###

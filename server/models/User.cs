@@ -2,18 +2,24 @@ namespace apijstream.models;
 
 public class User
 {
-  public int? iduser { set; get; }
-  public DateTime? birthdate { set; get; }
-  public byte[]? password { set; get; }
-  public string? username { set; get; }
+  public int iduser { set; get; }
+  public DateTime creation_timestamp { set; get; }
+  public byte[] password { set; get; }
+  public string username { set; get; }
 
-  public User() { }
-
-  public User(int? iduser, DateTime? birthdate, byte[]? password, string? username)
+  public User()
   {
-    this.iduser = iduser;
-    this.birthdate = birthdate;
-    this.password = password;
-    this.username = username;
+    this.iduser = 0;
+    this.creation_timestamp = new DateTime();
+    this.password = [];
+    this.username = "";
+  }
+
+  public User(int? iduser, DateTime? creation_timestamp, byte[]? password, string? username)
+  {
+    this.iduser = iduser ?? 0;
+    this.creation_timestamp = creation_timestamp ?? new DateTime();
+    this.password = password ?? [];
+    this.username = username ?? "";
   }
 }

@@ -1,188 +1,93 @@
-using System.Text.Json;
-using apijstream.Data;
+using System.Text;
+using apijstream.data;
 using apijstream.models;
 using Microsoft.EntityFrameworkCore;
-
-// Almacena las sesiones abiertas (nombres de usuario). @deprecated método inseguro
-List<string> openedSessions = [];
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
+using apijstream.interfaces;
+using apijstream.repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// @deprecated Esto permite cualquier conexión al backend.
+// Obtiene la llave de Jwt.
+var key = Encoding.ASCII.GetBytes(builder.Configuration["JwtKey"]!);
+
+// Origen permitido en Cors.
+var corsAllowedOrigin = builder.Configuration["Cors:AllowedOrigin"]
+  ?? "http://localhost:4200";
+
+// Inyecta la llave.
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+  .AddJwtBearer(options =>
+  {
+    // Manejo de tokens.
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+      ValidateIssuer = false, // Validar emisor (false: yo mismo).
+      ValidateAudience = false, // Validar quién lo recibe (no necesario si se consume por varios clientes).
+      ValidateIssuerSigningKey = true, // Validar que la llave sea la correcta.
+      IssuerSigningKey = new SymmetricSecurityKey(key) // Llave para cifrar.
+    };
+  });
+
+// builder.Services.AddScoped(UserService);
+
 builder.Services.AddCors(options =>
 {
-  options.AddPolicy("AllowAll",
-      policy => policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+  options.AddPolicy("FrontendPolicy", policy =>
+  {
+    policy.WithOrigins(corsAllowedOrigin)
+      .AllowAnyHeader()
+      .AllowAnyMethod()
+      .AllowCredentials();
+  });
 });
-
 // Contexto DbContext.
-builder.Services.AddDbContext<JStreamDBContext>();
+builder.Services.AddDbContext<JStreamDbContext>(options =>
+{
+  options.UseSqlServer(builder.Configuration.GetConnectionString("db")!);
+});
 
+// ** Dependencias **
+builder.Services.AddScoped<IMedia, MediaRepository>(); // Inyecta la dependencia de Media.
+builder.Services.AddScoped<IEntity<User, string>, UserRepository>(); // Inyecta la dependencia de User.
+builder.Services.AddSingleton<UserService>(); // Uno para todo el programa porque gestiona tokens.
+
+// ** Controladores **
+builder.Services.AddControllers();
+
+// ** Swagger **
+// Todas las rutas de una petición.
+builder.Services.AddEndpointsApiExplorer();
+// Generación de Swagger.
+builder.Services.AddSwaggerGen(c =>
+{
+  c.SwaggerDoc("v1", new OpenApiInfo
+  {
+    Title = "JStream API",
+    Version = "V1"
+  });
+});
+
+// *-*-*-*-*
 var app = builder.Build();
-// Cors.
-app.UseCors("AllowAll");
 
+// ** Middleware: Entre frontend y backend **
+// HTTPS redirection.
 app.UseHttpsRedirection();
+// Cors. Debe ponerse antes de las siguientes dos líneas, si no, cors bloqueará las solicitudes.
+app.UseCors("FrontendPolicy");
+// Para JWT.
+app.UseAuthentication(); // Primero verifica si el usuario tiene un token válido.
+app.UseAuthorization(); // Después de lo anterior, decide si el usuario tiene permiso de acceder.
+// Controles de Swagger.
+app.MapControllers();
 
-// Endpoint session.
-app.MapPost("/session", async (HttpRequest req) =>
+if (app.Environment.IsDevelopment())
 {
-  using var json = await JsonDocument.ParseAsync(req.Body);
-  var root = json.RootElement;
-  string? username = root.GetProperty("username").GetString();
-
-  if (username == null)
-    throw new Exception(">ERR:PARAM_MISSING; username, password or both missing");
-  else if (openedSessions.Find(oS => oS == username) == null)
-    return Results.Ok(false);
-  else
-    return Results.Ok(true);
-})
-.WithName("session");
-
-// Endpoint login.
-app.MapPost("/login", async (HttpRequest req, JStreamDBContext dBContext) =>
-{
-  try
-  {
-    using var json = await JsonDocument.ParseAsync(req.Body);
-    var root = json.RootElement;
-    string? username = root.GetProperty("username").GetString();
-    string? password = root.GetProperty("password").GetString();
-
-    if (username == null || password == null)
-      throw new Exception(">ERR:PARAM_MISSING; username, password or both missing");
-
-    await dBContext.Database.ExecuteSqlAsync($"EXEC sign_in {username}, {password}");
-
-    if (openedSessions.FindIndex(oS => oS == username) == -1)
-      openedSessions.Add(username);
-
-    return Results.Ok(username);
-  }
-  catch (Exception err)
-  {
-    return Results.BadRequest(err.Message);
-  }
+  app.UseSwagger();
+  app.UseSwaggerUI();
 }
-)
-.WithName("login");
-
-// Endpoint logout.
-app.MapPost("/logout", async (HttpRequest req) =>
-{
-  using var json = await JsonDocument.ParseAsync(req.Body);
-  var root = json.RootElement;
-  string? username = root.GetProperty("username").GetString();
-
-  int auxIdx = openedSessions.FindIndex(oS => oS == username);
-
-  if (auxIdx != -1)
-    openedSessions.RemoveAt(auxIdx);
-
-  return Results.Ok();
-}
-)
-.WithName("logout");
-
-// Endpoint signup.
-app.MapPost("/signup", async (HttpRequest req, JStreamDBContext dBContext) =>
-{
-  try
-  {
-    using var json = await JsonDocument.ParseAsync(req.Body);
-    var root = json.RootElement;
-    string? username = root.GetProperty("username").GetString();
-    string? password = root.GetProperty("password").GetString();
-
-    if (username == null || password == null)
-      throw new Exception(">ERR:PARAM_MISSING; username, password or both missing");
-
-    await dBContext.Database.ExecuteSqlAsync($"EXEC sign_up {username}, {password}");
-
-    return Results.Ok();
-  }
-  catch (Exception err)
-  {
-    return Results.BadRequest(err.Message);
-  }
-}
-)
-.WithName("signup");
-
-// Endpoint de un elemento del catálogo.
-app.MapGet("/get_media/{id}", async (int? id, JStreamDBContext dbContext) =>
-{
-  try
-  {
-    if (id == null)
-      throw new Exception(">ERR:PARAM_MISSING; id must be defined");
-
-    List<Media> medias = await dbContext.Medias.ToListAsync();
-
-    int mediaIdx = medias.FindIndex(m => m.idmedia == id);
-
-    return mediaIdx == -1
-      ? throw new Exception($">ERR:NOT_FOUND; media with id {id} not found")
-      : Results.Ok(medias[mediaIdx]);
-  }
-  catch (Exception err)
-  {
-    return Results.BadRequest(err.Message);
-  }
-});
-
-// Endpont del catálogo completo.
-app.MapGet("/get_medias", async (JStreamDBContext dbContext) =>
-{
-  try
-  {
-    var medias = await dbContext.Medias.ToListAsync();
-    return Results.Ok(medias);
-  }
-  catch (Exception err)
-  {
-    return Results.BadRequest(err.Message);
-  }
-})
-.WithName("GetMedias");
-
-// Endpoint del catálogo por títulos.
-app.MapGet("/find_medias_by_title/{title}", async (string? title, JStreamDBContext dbContext) =>
-{
-  try
-  {
-    if (title == null || title == "")
-      return Results.Ok(new List<Media>());
-
-    // Busca contenido por título.
-    var medias = (await dbContext.Medias.ToListAsync())
-      .FindAll(m => m.title?.Contains(title, StringComparison.CurrentCultureIgnoreCase) ?? false);
-
-    return Results.Ok(medias);
-  }
-  catch (Exception err)
-  {
-    return Results.BadRequest(err.Message);
-  }
-});
-
-// Endpoint del catálogo por géneros.
-app.MapGet("/find_medias_by_genre/{genre}", async (byte? genre, JStreamDBContext dbContext) =>
-{
-  try
-  {
-    if (genre < 0 || genre > 5)
-      throw new Exception(">ERR:PARAM_INVALID; given genre is invalid (0 <= genre <= 5)");
-    if (genre == 0)
-      return Results.Ok(await dbContext.Medias.ToListAsync());
-
-    return Results.Ok((await dbContext.Medias.ToListAsync()).FindAll(m => m.genre == genre));
-  }
-  catch (Exception err)
-  {
-    return Results.BadRequest(err.Message);
-  }
-});
 
 app.Run();

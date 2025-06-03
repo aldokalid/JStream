@@ -7,7 +7,6 @@ import { LoginPopupComponent } from 'src/app/shared/components/login-popup/login
 import { NavbarComponent } from 'src/app/shared/components/navbar/navbar.component';
 import { SessionPopupComponent } from 'src/app/shared/components/session-popup/session-popup.component';
 import { LoadWrapService } from 'src/app/shared/services/load-wrap.service';
-import { SessionService } from 'src/app/shared/services/session.service';
 
 @Component({
   selector: 'app-home',
@@ -29,7 +28,7 @@ export class HomeComponent implements OnInit {
   private loadingWrapper: boolean = false;
   private currSession?: string;
 
-  constructor(private loadWrapService: LoadWrapService, private session: SessionService, private auth: AuthService) {
+  constructor(private loadWrapService: LoadWrapService, private auth: AuthService) {
 
   }
 
@@ -75,12 +74,10 @@ export class HomeComponent implements OnInit {
 
   /** Función 'onResolve' para el popup login. */
   onLoginPopupResolve = (res: string) => {
-    // @deprecated Solo para fines simulados.
-    this.session.login(res);
     // Oculta la cortina de carga.
     this.loadWrapService.loadWrapOnHideExecute();
     // @deprecated mostrar mensaje de bienvenida con alert-banner.component.
-    alert(`Bienvenido, ${this.session.getSession()}.`);
+    alert(`Bienvenido, ${res}.`);
   }
 
   /** Renderiza la pantalla de carga. */

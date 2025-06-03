@@ -30,7 +30,7 @@ export class SearchComponent implements OnDestroy {
 
   // *** EVENTOS ***
   /** Controlador de clics para el botón de búsqueda. */
-  onSearchBtnClick = () => {
+  onSearchBtnClick() {
     const value = this.state.searchInputbarValue;
 
     if (!value)
@@ -83,5 +83,10 @@ export class SearchComponent implements OnDestroy {
   /** Obtiene los resultados de la búsqueda actual. */
   getMediaItems() {
     return this.mediaItems;
+  }
+
+  /** Obtiene el valor actual de la barra de búsqueda (entorno de pruebas) */
+  getCurrentSearchInputbarValue() {
+    return this.state.searchInputbarValue;
   }
 }

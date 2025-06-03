@@ -3,7 +3,7 @@
     [class]="'categories-container' + getCategoriesContainerStatusClass()">
     <div class="top-bar">
       <h1>CATEGORÍAS</h1>
-      <app-button [onClick]="onCategoriesBtnClick" id="categories-btn" [placeholder]="{ default: 'Categorías' }"
+      <app-button (onClick)="onCategoriesBtnClick()" id="categories-btn" [placeholder]="{ default: 'Categorías' }"
         [width]="{ value: '100%', as: 'width' }" />
       <hr>
       <br>

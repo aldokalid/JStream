@@ -31,7 +31,7 @@ export class CarouselComponent implements OnDestroy {
 
   // *** EVENTOS ***
   /** Controlador de clics para las tarjetas del carrusel. */
-  onCarouselItemClick = () => {
+  onCarouselItemClick() {
     const id = this.getCurrentMedia()?.getId();
 
     if (!id)
