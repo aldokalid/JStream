@@ -64,98 +64,100 @@ _Si ya lo tienes instalado, salta al siguiente paso_. [Haz clic aquí](https://w
 _Si ya lo tienes instalado, salta al siguiente paso_. [Haz clic aquí](https://learn.microsoft.com/es-es/ssms/install/install) para descargar e instalar (instalación básica) SSMS.
 
 9. **PREPARA LA BASE DE DATOS Y LAS CREDENCIALES**
-Ejecuta SSMS. Si tienes problemas para abrirlo, considera marcar la casilla _Trust server certificate_ y, de ser necesario, ejecutar el programa como administrador. También puedes probar con dejar _Encryption_ en _Optional_.
+  Ejecuta SSMS. Si tienes problemas para abrirlo, considera marcar la casilla _Trust server certificate_ y, de ser necesario, ejecutar el programa como administrador. También puedes probar con dejar _Encryption_ en _Optional_.
 
-Del lado izquierdo, tendrás el _Object Explorer_. En el árbol, ubícate en _Databases_, haz clic derecho sobre él y, luego, clic izquierdo en _Restore Database..._. En la sección _Source_, selecciona _Device:_ y haz clic en el botón _..._ Eso abrirá otra ventana, deberás hacer clic en el botón _Add_ y seleccionar el archivo de la base de datos ubicado en este repertorio: _server/databases/**jstream.bak**_. Haz clic en _Ok_ y la base de datos estará restaurada.
+  Del lado izquierdo, tendrás el _Object Explorer_. En el árbol, ubícate en _Databases_, haz clic derecho sobre él y, luego, clic izquierdo en _Restore Database..._. En la sección _Source_, selecciona _Device:_ y haz clic en el botón _..._ Eso abrirá otra ventana, deberás hacer clic en el botón _Add_ y seleccionar el archivo de la base de datos ubicado en este repertorio: _server/databases/**jstream.bak**_. Haz clic en _Ok_ y la base de datos estará restaurada.
 
-La autenticación en la API se hace por SQL, por lo que necesitarás habilitar la autenticación SQL de tu servidor y un **LOGIN**.
+  La autenticación en la API se hace por SQL, por lo que necesitarás habilitar la autenticación SQL de tu servidor y un **LOGIN**.
 
-Para habilitar la autenticación SQL, diríjete al _Object Explorer_ de SSMS, haz clic derecho en tu servidor (la parte más alta del árbol) y, luego, haz clic en _Properties_. Se abrirá una nueva ventana. De la sección _Select a page_, haz clic en la opción _Securitiy_ y, en la sección _Server authentication_ (la primera), selecciona _SQL Server and Windows Authenticacion Mode_. Finalmente, haz clic en el botón _OK_, cierra SSMS y reinicia el servicio (para reiniciarlo, abre el menú de windows con el botón de Windows del teclado, busca el programa _Servicios_ y ejecútalo como administrador, busca el servicio _SQL Server (MSSQLSERVER)_, haz clic derecho sobre el y, finalmente, haz clic en _Reiniciar_).
+  Para habilitar la autenticación SQL, diríjete al _Object Explorer_ de SSMS, haz clic derecho en tu servidor (la parte más alta del árbol) y, luego, haz clic en _Properties_. Se abrirá una nueva ventana. De la sección _Select a page_, haz clic en la opción _Securitiy_ y, en la sección _Server authentication_ (la primera), selecciona _SQL Server and Windows Authenticacion Mode_. Finalmente, haz clic en el botón _OK_, cierra SSMS y reinicia el servicio (para reiniciarlo, abre el menú de windows con el botón de Windows del teclado, busca el programa _Servicios_ y ejecútalo como administrador, busca el servicio _SQL Server (MSSQLSERVER)_, haz clic derecho sobre el y, finalmente, haz clic en _Reiniciar_).
 
-Para crear el **LOGIN**, ejecuta el siguiente bloque en un query (en SSMS) haciento clic en la opción _New Query_ de la barra superior:
+  Para crear el **LOGIN**, ejecuta el siguiente bloque en un query (en SSMS) haciento clic en la opción _New Query_ de la barra superior:
 
-```SQL
-CREATE LOGIN tuusuario
-WITH PASSWORD = 'tucontraseña'
-GO
-```
-Luego, crea el usuario:
-```SQL
-USE jstream
-GO
-CREATE USER jstreamer FOR LOGIN jstreamer
-GO
-```
+  ```SQL
+  CREATE LOGIN tuusuario
+  WITH PASSWORD = 'tucontraseña'
+  GO
+  ```
+  Luego, crea el usuario:
+  ```SQL
+  USE jstream
+  GO
+  CREATE USER jstreamer FOR LOGIN jstreamer
+  GO
+  ```
 
-Y, finalmente, dale los permisos:
+  Y, finalmente, dale los permisos:
 
-```SQL
-USE jstream;
-GO
-EXEC sp_addrolemember 'db_owner', 'jstreamer'
-GO
-```
+  ```SQL
+  USE jstream;
+  GO
+  EXEC sp_addrolemember 'db_owner', 'jstreamer'
+  GO
+  ```
 
-_Ojo_: Este último bloque lo considero como una vulnerabilidad, y debe ser corregida en el futuro.
+  _Ojo_: Este último bloque lo considero como una vulnerabilidad, y debe ser corregida en el futuro.
 
 10. **Abre el repositorio en Visual Studio Code.**
-Abre Visual Studio Code y, en la parte superior izquierda, haz clic en _Archivo > Abrir carpeta_. Luego, busca la carpeta que descomprimiste en el paso 2 y ábrela (asegúrate que sea la carpeta más directa al repositorio, es decir, **la carpeta en donde se encuentra este mismo archivo**: _README.md_). Esto debería mostrar el repositorio en Visual Studio Code.
+  Abre Visual Studio Code y, en la parte superior izquierda, haz clic en _Archivo > Abrir carpeta_. Luego, busca la carpeta que descomprimiste en el paso 2 y ábrela (asegúrate que sea la carpeta más directa al repositorio, es decir, **la carpeta en donde se encuentra este mismo archivo**: _README.md_). Esto debería mostrar el repositorio en Visual Studio Code.
 
 11. **Instala Angular JS.**
-_Si ya tienes Angular JS instalado, salta al siguiente paso_. [Haz clic aquí](https://angular.dev/installation) para instalar Angular (Node JS ya debe estar instalado). Asegúrate de instalar la versión 18 o superior.
+  _Si ya tienes Angular JS instalado, salta al siguiente paso_. [Haz clic aquí](https://angular.dev/installation) para instalar Angular (Node JS ya debe estar instalado). Asegúrate de instalar la versión 18 o superior.
 
 12. **Instala las dependencias.**
-En Visual Studio Code, haz la combinación de teclas **Ctrl + Ñ** para abrir una terminal (la tecla _Ñ_ se ubica a la derecha de la tecla _L_ en un teclado QWERTY latinoamericano). También puedes abrirla desde la opción _Terminal_ en la barra superior izquierda de opciones o puedes optar por abrir una consola externa a Visual Studio Code, solo asegúrate de ubicarte en la carpeta raiz del repertorio. En la terminal, ejecuta el comando ***npm run install-all***, esto instalará todas las depedendencias de Angular (el cliente) y .NET (el servidor).
+  En Visual Studio Code, haz la combinación de teclas **Ctrl + Ñ** para abrir una terminal (la tecla _Ñ_ se ubica a la derecha de la tecla _L_ en un teclado QWERTY latinoamericano). También puedes abrirla desde la opción _Terminal_ en la barra superior izquierda de opciones o puedes optar por abrir una consola externa a Visual Studio Code, solo asegúrate de ubicarte en la carpeta raiz del repertorio. En la terminal, ejecuta el comando ***npm run install-all***, esto instalará todas las depedendencias de Angular (el cliente) y .NET (el servidor).
 
 13. **Prepara los entornos.**
-Antes de ejecutar nada, debes preparar los entornos (environments) tanto del cliente como del servidor para que el proyecto pueda ejecutarse:
+  Antes de ejecutar nada, debes preparar los entornos (environments) tanto del cliente como del servidor para que el proyecto pueda ejecutarse:
 - _Cliente_
-Crea el archivo _client/src/app/environments/environment.ts_ con la siguiente estructura:
-```typescript
-export const environment = {
-  /** Bandera de producción. */
-  PRODUCTION: false,
-  /** Nombre del servidor. */
-  SERVER_NAME: 'tuservidor',
-  /** Puerto */
-  PORT: 'tupuerto'
-}
 
-// Evita que el objeto sea modificado.
-Object.freeze(environment);
-```
-La propiedad **SERVER_NAME** es el dominio donde se ubica tu API. Si es de acceso local, utiliza solo **localhost** (evita usar _http/https_). **PORT** es el puerto por donde escucha tu API. Prueba con ejecutar el server como se indica en el **Paso 10** para averiguar el puerto que utiliza tu servidor.
+    Crea el archivo _client/src/app/environments/environment.ts_ con la siguiente estructura:
 
-- _Servidor_
-Crea los archivos _server/appsettings.json_ y _server/appsettings.Development.json_, ambos con la siguiente estructura:
-
-```JSON
-{
-  "Logging": {
-    "LogLevel": {
-      "Default": "Information",
-      "Microsoft.AspNetCore": "Warning"
+    ```typescript
+    export const environment = {
+      /** Bandera de producción. */
+      PRODUCTION: false,
+      /** Nombre del servidor. */
+      SERVER_NAME: 'tuservidor',
+      /** Puerto */
+      PORT: 'tupuerto'
     }
-  },
-  "AllowedHosts": "*",
-  "JwtKey": "<tu-llave-secreta-jwt>",
-  "ConnectionStrings": {
-    "db": "Server=<tu-servidor>;Database=jstream;User Id=<tu-id-de-usuario>;Password=<tu-contraseña>;TrustServerCertificate=true"
-  },
-  "Cors": {
-    "AllowedOrigin": "<el-origen-de-tu-Angular>"
-  }
-}
-```
 
-**JwtKey** es la llave privada (256 bits) para poder tokenizar los tokens. Puedes generar un token [aquí](https://jwtsecret.com/generate). **db** es la cadena de conexión a la base de datos. Si alojaste la base de datos en un servicio de Azure, puedes reeplazar la cadena por la cadena de conexión que te da Azure. Si es, en cambio, local, puedes colocar el servidor como **Server=.**, solo asegúrate de ingresar las credenciales de usuario correctas.
-**el-origen-de-tu-Angular** es la dirección IP en la que se ejecuta tu programa de Angular (incluyendo puerto).
+    // Evita que el objeto sea modificado.
+    Object.freeze(environment);
+    ```
+    La propiedad **SERVER_NAME** es el dominio donde se ubica tu API. Si es de acceso local, utiliza solo **localhost** (evita usar _http/https_). **PORT** es el puerto por donde escucha tu API. Prueba con ejecutar el server como se indica en el **Paso 10** para averiguar el puerto que utiliza tu servidor.
+
+  - _Servidor_
+    Crea los archivos _server/appsettings.json_ y _server/appsettings.Development.json_, ambos con la siguiente estructura:
+
+    ```JSON
+    {
+      "Logging": {
+        "LogLevel": {
+          "Default": "Information",
+          "Microsoft.AspNetCore": "Warning"
+        }
+      },
+      "AllowedHosts": "*",
+      "JwtKey": "<tu-llave-secreta-jwt>",
+      "ConnectionStrings": {
+        "db": "Server=<tu-servidor>;Database=jstream;User Id=<tu-id-de-usuario>;Password=<tu-contraseña>;TrustServerCertificate=true"
+      },
+      "Cors": {
+        "AllowedOrigin": "<el-origen-de-tu-Angular>"
+      }
+    }
+    ```
+
+    **JwtKey** es la llave privada (256 bits) para poder tokenizar los tokens. Puedes generar un token [aquí](https://jwtsecret.com/generate). **db** es la cadena de conexión a la base de datos. Si alojaste la base de datos en un servicio de Azure, puedes reeplazar la cadena por la cadena de conexión que te da Azure. Si es, en cambio, local, puedes colocar el servidor como **Server=.**, solo asegúrate de ingresar las credenciales de usuario correctas.
+    **el-origen-de-tu-Angular** es la dirección IP en la que se ejecuta tu programa de Angular (incluyendo puerto).
 
 14. **Ejecuta el programa (ng serve y dotnet run).**
-Necesitarás dos terminales: una para ejecutar el servidor y otra para ejecutar el cliente. En una de ellas (ubicada en la raiz del repertorio), ejecuta el comando **npm run server**. Esto compilará el servidor en el servidor local de tu computadora. En otra terminal (también ubicada en la raiz del repertorio), ejecuta el comando **npm run client** para ejecutar el programa en tu computadora. Si quieres utilizar el programa en algún otro dispositivo de tu red local, utiliza **npm run client-host**. Ya que Angular haya "construido" el proyecto, te mostrará la dirección o direcciones para acceder desde el navegador. Deja pulsado _Ctrl_ y haz clic izquierdo sobre una de ellas. Esto abrirá tu navegador con la página del proyecto.
+  Necesitarás dos terminales: una para ejecutar el servidor y otra para ejecutar el cliente. En una de ellas (ubicada en la raiz del repertorio), ejecuta el comando **npm run server**. Esto compilará el servidor en el servidor local de tu computadora. En otra terminal (también ubicada en la raiz del repertorio), ejecuta el comando **npm run client** para ejecutar el programa en tu computadora. Si quieres utilizar el programa en algún otro dispositivo de tu red local, utiliza **npm run client-host**. Ya que Angular haya "construido" el proyecto, te mostrará la dirección o direcciones para acceder desde el navegador. Deja pulsado _Ctrl_ y haz clic izquierdo sobre una de ellas. Esto abrirá tu navegador con la página del proyecto.
 
 15. **Ejecuta el entorno de pruebas (ng test --code-coverage).**
-Para ejecutar el entorno de pruebas, abre una terminal ubicada en la raiz del repertorio y utiliza **npm run client-test**. El navegador por defecto es Chrome.
+  Para ejecutar el entorno de pruebas, abre una terminal ubicada en la raiz del repertorio y utiliza **npm run client-test**. El navegador por defecto es Chrome.
 
 
 ## A TOMAR EN CUENTA.
