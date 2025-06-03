@@ -38,13 +38,13 @@ Aldo Kalid Hernández Camarena
 Aquí te explico cómo ejecutar el programa con el script **ng serve** y **dotnet run** en un entorno con Visual Studio Code y Windows 10/11 (estos pasos podrían ser diferentes en otros SOs).
 
 1. **Descarga el repositorio.**
-Ubícate al tope de esta página y haz clic en el obvio botón verde "<> Code" y, luego, haz clic en "Download ZIP". Esto iniciará (o solicitará, depende de tu navegador) la descarga.
+  Ubícate al tope de esta página y haz clic en el obvio botón verde "<> Code" y, luego, haz clic en "Download ZIP". Esto iniciará (o solicitará, depende de tu navegador) la descarga.
 
 2. **Descomprime el repositorio.**
-Dirígete a tu carpeta de descargas (o donde sea que lo hayas guardado) y descomprime el archivo. Puedes utilizar la herramienta integrada de Windows para descomprimir archivos ZIP o cualquier otra de tu agrado.
+  Dirígete a tu carpeta de descargas (o donde sea que lo hayas guardado) y descomprime el archivo. Puedes utilizar la herramienta integrada de Windows para descomprimir archivos ZIP o cualquier otra de tu agrado.
 
 3. **Descarga e instala Visual Studio Code.**
-_Si ya tienes Visual Studio Code instalado, salta al siguiente paso_. [Haz clic aquí](https://code.visualstudio.com/) para descargar Visual Studio Code. Una vez descargado, lo instalas.
+  _Si ya tienes Visual Studio Code instalado, salta al siguiente paso_. [Haz clic aquí](https://code.visualstudio.com/) para descargar Visual Studio Code. Una vez descargado, lo instalas.
 
 4. **Descarga extensiones requeridas de Visual Studio Code.**
   - [NET Install Tool](https://marketplace.visualstudio.com/items?itemName=ms-dotnettools.vscode-dotnet-runtime)
@@ -52,16 +52,16 @@ _Si ya tienes Visual Studio Code instalado, salta al siguiente paso_. [Haz clic 
   - [C# Dev Kit](https://marketplace.visualstudio.com/items?itemName=ms-dotnettools.csdevkit)
 
 5. **Descarga e instala Node JS.**
-_Si ya tienes Node JS instalado, salta al siguiente paso_. [Haz clic aquí](https://nodejs.org/) para descargar NodeJS (te recomiendo que descargues la versión LTS). Una vez descargado, lo instalas. Puede que no sea necesario, pero te sugiero reinicar tu computadora después de la instalación.
+  _Si ya tienes Node JS instalado, salta al siguiente paso_. [Haz clic aquí](https://nodejs.org/) para descargar NodeJS (te recomiendo que descargues la versión LTS). Una vez descargado, lo instalas. Puede que no sea necesario, pero te sugiero reinicar tu computadora después de la instalación.
 
 6. **Descarga e instala .NET 9**
-_Si ya tienes .NET instalado, salta al siguiente paso_. [Haz clic aquí](https://dotnet.microsoft.com/es-es/download) para descargar .NET 9. Una vez descargado, lo instalas. Puede que no sea necesario, pero te sugiero reinicar tu computadora después de la instalación.
+  _Si ya tienes .NET instalado, salta al siguiente paso_. [Haz clic aquí](https://dotnet.microsoft.com/es-es/download) para descargar .NET 9. Una vez descargado, lo instalas. Puede que no sea necesario, pero te sugiero reinicar tu computadora después de la instalación.
 
 7. **Descarga e instala Microsoft SQL Server**
-_Si ya lo tienes instalado, salta al siguiente paso_. [Haz clic aquí](https://www.microsoft.com/es-mx/sql-server/sql-server-downloads) Y descarga la versión Developer. Una vez descargado, lo instalas (instalación básica). Puede que no sea necesario, pero te sugiero reinicar tu computadora después de la instalación.
+  _Si ya lo tienes instalado, salta al siguiente paso_. [Haz clic aquí](https://www.microsoft.com/es-mx/sql-server/sql-server-downloads) Y descarga la versión Developer. Una vez descargado, lo instalas (instalación básica). Puede que no sea necesario, pero te sugiero reinicar tu computadora después de la instalación.
 
 8. **Descarga e instala SQL Server Management Studio**
-_Si ya lo tienes instalado, salta al siguiente paso_. [Haz clic aquí](https://learn.microsoft.com/es-es/ssms/install/install) para descargar e instalar (instalación básica) SSMS.
+  _Si ya lo tienes instalado, salta al siguiente paso_. [Haz clic aquí](https://learn.microsoft.com/es-es/ssms/install/install) para descargar e instalar (instalación básica) SSMS.
 
 9. **PREPARA LA BASE DE DATOS Y LAS CREDENCIALES**
   Ejecuta SSMS. Si tienes problemas para abrirlo, considera marcar la casilla _Trust server certificate_ y, de ser necesario, ejecutar el programa como administrador. También puedes probar con dejar _Encryption_ en _Optional_.
