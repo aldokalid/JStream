@@ -4,3 +4,4 @@
 /appsettings.json
 /environments/*
 !/environments/.gitkeep
+/out

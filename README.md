@@ -243,7 +243,9 @@ Por último, actualicé la forma en la que se hace la autenticación en el clien
 
 
 # Archivos de configuración de ambientes, de Docker y de Kubernetes.
-Los archivos Dockerfile y YAML (para kubernetes) no se incluyen en este Sprint porque el no conseguí generar una imagen de Doker del cliente ni del servidor.
+Los Dockerfile de los proyectos se encuentran en:
+  - API: server/Dockerfile
+  - Cliente: client/dist/Dockerfile
 
 
 ## Problemas conocidos.
